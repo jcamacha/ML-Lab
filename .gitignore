@@ -62,3 +62,5 @@ start_backend.bat
 # Docs y agentes (nunca se suben)
 Docs_LaTeX_Export/
 .agents/
+agy_*.txt
+agy_*.txt
