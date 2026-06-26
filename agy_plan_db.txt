@@ -1,0 +1,43 @@
+# PLANEA una solucion para conectar Spring Boot a Supabase PostgreSQL
+
+Modo: PLANIFICACION. NO ejecutes nada aun. Solo analiza los archivos y genera un plan detallado en un archivo .md.
+
+## INSTRUCCION
+Lee los archivos REALES del proyecto, diagnostica por que falla la conexion a BD, y genera un plan de correccion como artefacto.
+
+## ARCHIVOS A LEER (LEELOS ANTES DE PLANEAR)
+1. /mnt/c/Users/juanp/Documents/Proyectos/proyecto-final-web/web_project/web_project/java-backend/src/main/resources/application.properties
+2. /mnt/c/Users/juanp/Documents/Proyectos/proyecto-final-web/web_project/web_project/java-backend/Dockerfile
+3. /mnt/c/Users/juanp/Documents/Proyectos/proyecto-final-web/railway.json
+
+## CONTEXTO
+- Base de datos: Supabase PostgreSQL
+- Host: aws-1-us-east-2.pooler.supabase.com
+- Puerto: 6543
+- Railway ya tiene la env var SPRING_DATASOURCE_PASSWORD configurada
+- La aplicacion falla al conectar y da error "Unable to determine Dialect without JDBC metadata"
+
+## REGLAS DEL PLAN
+1. La JDBC URL NO debe incluir usuario ni password
+2. Usa ${SPRING_DATASOURCE_PASSWORD} para la password (Railway la tiene configurada)
+3. spring.datasource.username debe tener el nombre de usuario real
+4. Incluye SSL: ssl=true&sslmode=require&prepareThreshold=0
+5. Incluye spring.jpa.database-platform explícitamente
+6. Incluye los comandos para hacer git add, commit, push
+
+## GENERA UN ARTEFACTO
+Escribe el plan completo en:
+/home/jcamach/.gemini/antigravity-cli/brain/plan_conexion_db.md
+
+El archivo debe tener:
+=== DIAGNOSTICO ===
+[que causa el error]
+
+=== ARCHIVO CORREGIDO ===
+[contenido exacto de application.properties con los valores reales]
+
+=== PASOS A EJECUTAR ===
+[comandos exactos]
+
+=== VERIFICACION ===
+[curl para probar la URL de Railway]

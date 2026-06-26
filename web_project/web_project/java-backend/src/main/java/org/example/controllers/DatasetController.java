@@ -14,9 +14,11 @@ import java.util.List;
 public class DatasetController {
 
     private final DatasetService service;
+    private final org.example.utils.JwtService jwtService;
 
-    public DatasetController(DatasetService service) {
+    public DatasetController(DatasetService service, org.example.utils.JwtService jwtService) {
         this.service = service;
+        this.jwtService = jwtService;
     }
 
     // OBTENER TODOS LOS DATASETS (CON FILTRO OPCIONAL POR TIPO)
@@ -52,9 +54,18 @@ public class DatasetController {
         }
     }
 
-    // ELIMINAR DATASET
+    // ELIMINAR DATASET (Solo ADMIN)
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteDataset(@PathVariable Long id) {
+    public ResponseEntity<?> deleteDataset(@PathVariable Long id,
+                                           @RequestHeader(value = "Authorization", required = false) String authHeader) {
+        com.auth0.jwt.interfaces.DecodedJWT jwt = jwtService.verifyToken(authHeader);
+        if (jwt == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No autorizado.");
+        }
+        String role = jwtService.getRoleFromToken(jwt);
+        if (!"ADMIN".equals(role)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Acceso denegado. Solo los administradores pueden eliminar datasets.");
+        }
         try {
             service.deleteDataset(id);
             return ResponseEntity.noContent().build();

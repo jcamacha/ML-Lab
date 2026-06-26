@@ -6,15 +6,17 @@ import { LoadingSpinnerComponent } from '../../shared/loading-spinner/loading-sp
 import { ErrorMessageComponent } from '../../shared/error-message/error-message.component';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-register',
   standalone: true,
   imports: [FormsModule, RouterLink, LoadingSpinnerComponent, ErrorMessageComponent],
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.css']
 })
-export class LoginComponent {
+export class RegisterComponent {
+  name = '';
   email = '';
   password = '';
+  confirmPassword = '';
   isLoading = false;
   errorMessage = '';
   successMessage = '';
@@ -22,8 +24,13 @@ export class LoginComponent {
   constructor(private authService: AuthService, private router: Router) {}
 
   onSubmit() {
-    if (!this.email || !this.password) {
-      this.errorMessage = 'Por favor ingresa tu correo y contraseña.';
+    if (!this.name || !this.email || !this.password || !this.confirmPassword) {
+      this.errorMessage = 'Por favor completa todos los campos.';
+      return;
+    }
+
+    if (this.password !== this.confirmPassword) {
+      this.errorMessage = 'Las contraseñas no coinciden.';
       return;
     }
 
@@ -31,17 +38,23 @@ export class LoginComponent {
     this.errorMessage = '';
     this.successMessage = '';
 
-    this.authService.login(this.email, this.password).subscribe({
-      next: (res) => {
+    const userDetails = {
+      name: this.name,
+      email: this.email,
+      passwordHash: this.password // El backend se encargará de hashearlo
+    };
+
+    this.authService.register(userDetails).subscribe({
+      next: () => {
         this.isLoading = false;
-        this.successMessage = '¡Inicio de sesión exitoso! Redirigiendo...';
+        this.successMessage = '¡Registro exitoso! Redirigiendo al inicio de sesión...';
         setTimeout(() => {
-          this.router.navigate(['/dashboard']);
-        }, 1200);
+          this.router.navigate(['/login']);
+        }, 2000);
       },
       error: (err) => {
         this.isLoading = false;
-        this.errorMessage = err.message || 'Credenciales inválidas. Por favor intenta de nuevo.';
+        this.errorMessage = err.message || 'Error al registrar el usuario. Intenta de nuevo.';
       }
     });
   }

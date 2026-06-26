@@ -1,0 +1,63 @@
+# PLANEA: Refactorizacion de diseño premium para ML Lab Frontend
+
+Modo: PLANIFICACION. Lee los archivos, diagnostica y genera un plan en /home/jcamach/.gemini/antigravity-cli/brain/plan_premium.md
+
+## INSTRUCCIONES DE DISEÑO PREMIUM
+
+Actua como un Desarrollador Frontend Angular Senior (especialista en UI/UX y SCSS). Tu tarea es refactorizar el diseno de TODOS los componentes del frontend para eliminar el aspecto generico de "interfaz hecha por IA".
+
+### REGLAS DE DISENO PREMIUM:
+
+1. **PALETA Y BORDES**: Tono neutro sofisticado. Fondo plano solido #09090b (casi negro). Bordes sumamente finos con opacidad baja (rgba(255,255,255,0.06)). SIN degradados de fondo azul-morado o neón. SIN glassmorphism ni backdrop-filter llamativos.
+
+2. **CONTEXTO TIPOGRAFICO**: 
+   - Encabezados: Fuente serif elegante 'Fraunces' (Google Fonts) - cargarla via @import en styles.css
+   - Texto comun: Sans-serif geometrica 'Manrope' (Google Fonts)
+   - Datos tecnicos: Monospace 'JetBrains Mono' (Google Fonts)
+   - Respetar espaciado generoso (padding) para dar aire al diseno
+
+3. **ASIMETRIA EN LAYOUT**: Romper cuadriculas simetricas de tarjetas. Usar layouts de anchos variables tipo Bento Grid. No mas 3 columnas iguales.
+
+4. **MICRO-INTERACCIONES**: 
+   - Botones: hover con translate-y-[-1px] y sombras multicapa
+   - Transiciones: cubic-bezier suave, 0.3s
+   - Cards: hover con border opacity sutilmente mas alta
+
+5. **MINIMALISMO DE ICONOS**: Reducir iconos al minimo. No rellenar titulos con iconos decorativos.
+
+### ARCHIVOS A LEER
+Lee PRIMERO estos archivos para entender la estructura actual:
+1. /mnt/c/Users/juanp/Documents/Proyectos/proyecto-final-web/web_project/web_project/angular-frontend/src/styles.css
+2. Lista todos los .html y .css bajo src/app/shared/
+3. Lista todos los .html y .css bajo src/app/pages/
+4. /mnt/c/Users/juanp/Documents/Proyectos/proyecto-final-web/web_project/web_project/angular-frontend/src/index.html
+
+### GENERA UN PLAN CON:
+=== DIAGNOSTICO ===
+[que aspectos del diseno actual violan las reglas premium]
+
+=== PALETA FINAL ===
+- Fondo: #09090b
+- Surface: #111113
+- Surface hover: #1a1a1d
+- Borde: rgba(255,255,255,0.06)
+- Borde hover: rgba(255,255,255,0.12)
+- Texto primario: #f5f5f7
+- Texto secundario: #86868b
+- Acento: #5e5ce6 (morado suave, no neon)
+- Exito: #30d158
+- Error: #ff453a
+
+=== TIPOGRAFIA ===
+- Headings: 'Fraunces', serif (Google Font)
+- Body: 'Manrope', sans-serif
+- Code/data: 'JetBrains Mono', monospace
+
+=== ARCHIVOS A MODIFICAR ===
+Para CADA archivo, especifica:
+- Que clases CSS cambiar
+- Que estructura HTML modificar
+- Como implementar Bento Grid asimetrico
+
+=== PLAN DE EJECUCION ===
+Paso a paso, en que orden modificar los archivos.

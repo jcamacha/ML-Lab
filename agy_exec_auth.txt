@@ -1,0 +1,132 @@
+# EJECUTA el plan de autenticacion, admin y mejora UX
+
+## DECISIONES (para que no preguntes):
+1. Cifrado: Usa BCrypt (agrega jbcrypt al pom.xml)
+2. Datasets/Modelos: Globales/compartidos. Solo admin los elimina. Experimentos son por usuario.
+
+## El plan ya lo tienes. Ahora EJECUTALO en este orden:
+
+### FASE 1: BACKEND (archivos .java)
+
+#### 1.1 Agregar BCrypt al pom.xml
+Ruta: /mnt/c/Users/juanp/Documents/Proyectos/proyecto-final-web/web_project/web_project/java-backend/pom.xml
+Agregar dependencia:
+```xml
+<dependency>
+    <groupId>org.mindrot</groupId>
+    <artifactId>jbcrypt</artifactId>
+    <version>0.4</version>
+</dependency>
+```
+
+#### 1.2 Modificar User.java
+Ruta: .../java-backend/src/main/java/org/example/entities/User.java
+- Agregar campo: private String role; (valores: "USER", "ADMIN")
+- @Column(name = "role", nullable = false)
+- Inicializar role = "USER" por defecto
+
+#### 1.3 Crear AuthController.java
+Ruta: .../controllers/AuthController.java
+- POST /api/auth/register - registra nuevo usuario, hashea password con BCrypt
+- POST /api/auth/login - verifica credenciales, devuelve user + token simple (UUID o JWT basico)
+- GET /api/auth/me - devuelve el usuario actual (requiere token en header Authorization)
+
+#### 1.4 Crear AdminController.java
+Ruta: .../controllers/AdminController.java
+- GET /api/admin/users - lista todos los usuarios (solo admin)
+- DELETE /api/admin/users/{id} - elimina usuario (solo admin)
+- DELETE /api/admin/datasets/{id} - elimina dataset (solo admin)
+- DELETE /api/admin/models/{id} - elimina modelo (solo admin)
+- GET /api/admin/stats - estadisticas del sistema
+
+#### 1.5 Modificar UserService.java
+- Agregar metodo login(String email, String password) con BCrypt.checkpw
+- Agregar metodo register(User user) con BCrypt.hashpw
+- Agregar metodo findByEmail(String email)
+- NO usar Spring Security - solo logica simple con token en header
+
+#### 1.6 Agregar filtro CORS en AuthController
+- @CrossOrigin(origins = "*") en todos los controladores
+
+### FASE 2: FRONTEND (archivos .ts, .html, .css)
+
+#### 2.1 Crear AuthService
+Ruta: .../angular-frontend/src/app/services/auth.service.ts
+- login(email, password): POST /api/auth/login, guarda token + user en localStorage
+- register(name, email, password): POST /api/auth/register
+- logout(): limpia localStorage, redirige a /login
+- getToken(): string | null del localStorage
+- getCurrentUser(): User | null del localStorage
+- isLoggedIn(): boolean
+- isAdmin(): boolean
+
+#### 2.2 Modificar app.config.ts
+- Agregar provideHttpClient(withInterceptors(...)) o un HTTP interceptor que añada el header Authorization: Bearer {token} a todas las peticiones
+
+#### 2.3 Crear AuthInterceptor
+Ruta: .../services/auth.interceptor.ts
+- Intercepta todas las peticiones HTTP
+- Si hay token en localStorage, agrega header Authorization: Bearer {token}
+
+#### 2.4 Crear AuthGuard
+Ruta: .../guards/auth.guard.ts
+- canActivate: si no hay token, redirige a /login
+
+#### 2.5 Crear AdminGuard
+Ruta: .../guards/admin.guard.ts
+- canActivate: si no es admin, redirige a /
+
+#### 2.6 Actualizar LoginComponent
+- Usar AuthService para login
+- Redirigir a /dashboard tras login exitoso
+- Diseño premium consistente
+
+#### 2.7 Crear RegisterComponent
+Ruta: .../pages/register/register.component.ts
+- Formulario: name, email, password, confirm password
+- Llama a AuthService.register()
+- Diseño premium
+
+#### 2.8 Crear ProfileComponent (opcional)
+- Muestra info del usuario logueado
+
+#### 2.9 Crear AdminComponent
+Ruta: .../pages/admin/admin.component.ts
+- Tabla de usuarios con boton eliminar
+- Estadisticas del sistema
+- Solo accesible por admin (AdminGuard)
+
+#### 2.10 Actualizar Navbar
+- Si no logueado: mostrar links a Home, Login, Register
+- Si logueado (user normal): mostrar nombre, Dashboard, Datasets, Modelos, Experimentos, Archivos, ML, Logout
+- Si admin: todo lo anterior + link a Admin Panel
+- Usar AuthService.isLoggedIn() y AuthService.isAdmin()
+
+#### 2.11 Actualizar app.routes.ts
+Ruta: .../app.routes.ts
+Agregar rutas:
+- /login -> LoginComponent (publica)
+- /register -> RegisterComponent (publica)
+- /admin -> AdminComponent (protegida con AdminGuard)
+- /profile -> ProfileComponent (protegida con AuthGuard)
+
+Las rutas existentes que NO requieren auth: /, /home
+Las rutas que requieren auth: /dashboard, /users/*, /datasets/*, /models/*, /experiments/*, /files/*, /ml/*
+Las rutas solo admin: /admin
+
+#### 2.12 Arreglar Login CSS
+El login.component.css usa variables que no existen (--accent-color, --bg-color).
+Deberia usar: var(--accent), var(--bg-primary), var(--bg-secondary), var(--text-primary), var(--text-secondary)
+
+## REGLAS
+- LEE cada archivo antes de modificarlo
+- NO ejecutes npm, ng ni build
+- NO modifiques la logica de negocio existente, solo agrega
+- Manten el diseño premium (fondos oscuros, Fraunces headings, Manrope body)
+- Si un archivo .ts requiere cambios, MODIFICALO (a diferencia de antes, los .ts SI pueden cambiar ahora)
+
+## REPORTE FINAL
+Cuando termines ambas fases, reporta:
+- Todos los archivos creados y modificados
+- Cualquier problema encontrado
+- El usuario correra ng build para verificar

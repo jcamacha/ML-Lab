@@ -1,0 +1,38 @@
+<div class="profile-container">
+  <div class="profile-card">
+    <div class="profile-avatar">
+      👤
+    </div>
+    
+    @if (user) {
+      <h2>Mi Perfil</h2>
+      <p class="profile-subtitle">Información general de tu cuenta de laboratorio</p>
+      
+      <div class="profile-details">
+        <div class="detail-item">
+          <span class="detail-label">Nombre</span>
+          <span class="detail-value">{{ user.name }}</span>
+        </div>
+        
+        <div class="detail-item">
+          <span class="detail-label">Correo Electrónico</span>
+          <span class="detail-value">{{ user.email }}</span>
+        </div>
+        
+        <div class="detail-item">
+          <span class="detail-label">Rol del Sistema</span>
+          <span class="detail-value badge" [class.admin-role]="user.role === 'ADMIN'">
+            {{ user.role || 'USER' }}
+          </span>
+        </div>
+        
+        <div class="detail-item">
+          <span class="detail-label">Miembro desde</span>
+          <span class="detail-value">{{ user.createdAt | date:'mediumDate' }}</span>
+        </div>
+      </div>
+    } @else {
+      <p class="text-error">No se encontró información del usuario. Por favor, inicia sesión de nuevo.</p>
+    }
+  </div>
+</div>

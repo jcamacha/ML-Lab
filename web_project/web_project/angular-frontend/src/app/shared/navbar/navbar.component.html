@@ -12,11 +12,35 @@
   
   <ul class="nav-links">
     <li><a routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Inicio</a></li>
-    <li><a routerLink="/users" routerLinkActive="active">Usuarios</a></li>
-    <li><a routerLink="/datasets" routerLinkActive="active">Datasets</a></li>
-    <li><a routerLink="/models" routerLinkActive="active">Modelos</a></li>
-    <li><a routerLink="/experiments" routerLinkActive="active">Experimentos</a></li>
-    <li><a routerLink="/files" routerLinkActive="active">Archivos</a></li>
-    <li><a routerLink="/ml" routerLinkActive="active">ML</a></li>
+    
+    @if (!authService.isLoggedIn()) {
+      <li><a routerLink="/login" routerLinkActive="active">Iniciar Sesión</a></li>
+      <li><a routerLink="/register" routerLinkActive="active">Registrarse</a></li>
+    } @else {
+      <li><a routerLink="/dashboard" routerLinkActive="active">Dashboard</a></li>
+      <li><a routerLink="/datasets" routerLinkActive="active">Datasets</a></li>
+      <li><a routerLink="/models" routerLinkActive="active">Modelos</a></li>
+      <li><a routerLink="/experiments" routerLinkActive="active">Experimentos</a></li>
+      <li><a routerLink="/files" routerLinkActive="active">Archivos</a></li>
+      
+      <li class="dropdown">
+        <a class="dropbtn">ML</a>
+        <div class="dropdown-content">
+          <a routerLink="/ml/linear" routerLinkActive="active">Regresión Lineal</a>
+          <a routerLink="/ml/logistic" routerLinkActive="active">Regresión Logística</a>
+          <a routerLink="/ml/knn" routerLinkActive="active">K-NN</a>
+        </div>
+      </li>
+      
+      @if (authService.isAdmin()) {
+        <li><a routerLink="/admin" routerLinkActive="active" class="admin-link">Panel Admin</a></li>
+      }
+      
+      <li class="user-profile-nav">
+        <span class="user-name-display">👤 {{ authService.getCurrentUser()?.name }}</span>
+      </li>
+      
+      <li><button (click)="logout()" class="btn-logout">Cerrar Sesión</button></li>
+    }
   </ul>
 </nav>

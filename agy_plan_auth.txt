@@ -1,0 +1,68 @@
+# PLANEA: Sistema de autenticacion, roles y mejora UX para ML Lab
+
+Modo: PLANIFICACION. Lee la app, diagnostica y genera un plan detallado en /home/jcamach/.gemini/antigravity-cli/brain/plan_auth.md
+
+## PRIMERO: Entiende la app
+
+Lee estos archivos para entender el proposito de la aplicacion:
+1. /mnt/c/Users/juanp/Documents/Proyectos/proyecto-final-web/web_project/web_project/java-backend/src/main/java/org/example/controllers/ - todos los controladores
+2. /mnt/c/Users/juanp/Documents/Proyectos/proyecto-final-web/web_project/web_project/java-backend/src/main/java/org/example/services/UserService.java
+3. /mnt/c/Users/juanp/Documents/Proyectos/proyecto-final-web/web_project/web_project/java-backend/src/main/java/org/example/entities/User.java
+4. /mnt/c/Users/juanp/Documents/Proyectos/proyecto-final-web/web_project/web_project/java-backend/src/main/resources/application.properties
+5. /mnt/c/Users/juanp/Documents/Proyectos/proyecto-final-web/web_project/web_project/python-api/app.py
+6. Lista los .ts del frontend en angular-frontend/src/app/services/
+
+## REQUERIMIENTOS
+
+### 1. Sistema de Login/Signin
+- Login con email + password
+- Signin/registro de nuevos usuarios
+- Persistencia de sesion (JWT o localStorage)
+- Proteccion de rutas (AuthGuard)
+- Navbar cambia cuando el usuario esta logueado (muestra nombre, boton logout)
+- Login page estilizada con el tema premium existente
+
+### 2. Admin
+- Admin predefinido: email=juanESCOM@ipn.com, password=prueba
+- Admin es responsable de funciones "peligrosas":
+  * Eliminar usuarios
+  * Eliminar experimentos
+  * Eliminar datasets
+  * Eliminar modelos
+  * Ver todos los datos del sistema
+- Usuarios regulares NO pueden borrar cosas de otros
+- Admin ve un panel especial de administracion
+
+### 3. Mejora UX
+Basado en tu entendimiento de la app (laboratorio de ML para ejecutar experimentos):
+- Dashboard con metricas relevantes
+- Home page que explique el proposito de la app
+- Flujo claro: registrarse -> crear dataset -> ejecutar experimento -> ver resultados
+- Navegacion intuitiva
+
+## GENERA UN PLAN CON:
+
+=== ANALISIS DE LA APP ===
+[que hace la app, quien la usa, cual es el flujo ideal]
+
+=== CAMBIOS EN BACKEND ===
+- User entity: agregar campo role (ADMIN/USER)
+- UserService: login(), register()
+- AuthController: POST /api/auth/login, POST /api/auth/register
+- JWT utility (simple, sin Spring Security complejo)
+- AdminController: GET /api/admin/users, DELETE /api/admin/users/{id}
+- Endpoints protegidos con header Authorization
+
+=== CAMBIOS EN FRONTEND ===
+- AuthService: login(), register(), logout(), isLoggedIn(), getCurrentUser()
+- AuthGuard: protege rutas que requieren auth
+- AdminGuard: protege rutas solo para admin
+- LoginComponent: formulario login con diseño premium
+- RegisterComponent: formulario registro
+- ProfileComponent: ver perfil
+- AdminComponent: panel de admin (lista usuarios, borrar, ver todo)
+- Navbar: mostrar/ocultar opciones segun auth state
+- app.routes.ts: nuevas rutas protegidas
+
+=== PLAN DE EJECUCION ===
+Orden exacto de implementacion paso a paso

@@ -14,9 +14,11 @@ import java.util.List;
 public class ModelController {
 
     private final ModelService service;
+    private final org.example.utils.JwtService jwtService;
 
-    public ModelController(ModelService service) {
+    public ModelController(ModelService service, org.example.utils.JwtService jwtService) {
         this.service = service;
+        this.jwtService = jwtService;
     }
 
     // OBTENER TODOS LOS MODELOS
@@ -49,9 +51,18 @@ public class ModelController {
         }
     }
 
-    // ELIMINAR MODELO
+    // ELIMINAR MODELO (Solo ADMIN)
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteModel(@PathVariable Long id) {
+    public ResponseEntity<?> deleteModel(@PathVariable Long id,
+                                         @RequestHeader(value = "Authorization", required = false) String authHeader) {
+        com.auth0.jwt.interfaces.DecodedJWT jwt = jwtService.verifyToken(authHeader);
+        if (jwt == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No autorizado.");
+        }
+        String role = jwtService.getRoleFromToken(jwt);
+        if (!"ADMIN".equals(role)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Acceso denegado. Solo los administradores pueden eliminar modelos.");
+        }
         try {
             service.deleteModel(id);
             return ResponseEntity.noContent().build();

@@ -1,0 +1,64 @@
+# PLANEA: Rediseno profesional y moderno del frontend Angular + arreglar experimentos
+
+Modo: PLANIFICACION. Lee los archivos, diagnostica, genera un plan detallado en /home/jcamach/.gemini/antigravity-cli/brain/plan_rediseno.md
+
+## PROBLEMAS ACTUALES
+1. Experimentos: la pagina tiene una tabla duplicada (DataTableComponent + tabla manual). Ademas, la pagina usa estilos antiguos (colores duros, bordes cuadrados).
+2. Diseno general: colores claros y basicos. El usuario quiere algo mas profesional, moderno, con colores oscuros.
+
+## VISION DEL DISENO
+- Tema oscuro moderno: fondos oscuros (#0f172a, #1e293b), texto claro, acentos en azul/cyan
+- Glassmorphism en navbar y cards (backdrop-filter: blur, borders translucidos)
+- Tipografia: system-ui, sans-serif, jerarquia clara
+- Cards con bordes sutiles, glows, transiciones suaves
+- Botones con micro-interacciones (hover scale, active press)
+- Tablas modernas con striping, hover states, colores consistentes
+- Formularios con inputs estilizados, labels flotantes o modernos
+- Iconos minimalistas (usar SVG inline o unicodes)
+- Dashboard con tarjetas de metricas
+- Responsive design completo
+
+## ARCHIVOS A LEER
+Lee todos estos archivos antes de planear:
+1. /mnt/c/Users/juanp/Documents/Proyectos/proyecto-final-web/web_project/web_project/angular-frontend/src/styles.css
+2. /mnt/c/Users/juanp/Documents/Proyectos/proyecto-final-web/web_project/web_project/angular-frontend/src/app/shared/navbar/navbar.component.css
+3. /mnt/c/Users/juanp/Documents/Proyectos/proyecto-final-web/web_project/web_project/angular-frontend/src/app/shared/navbar/navbar.component.html
+4. /mnt/c/Users/juanp/Documents/Proyectos/proyecto-final-web/web_project/web_project/angular-frontend/src/app/shared/footer/footer.component.css
+5. /mnt/c/Users/juanp/Documents/Proyectos/proyecto-final-web/web_project/web_project/angular-frontend/src/app/pages/experiments/experiment-list/experiment-list.component.html
+6. /mnt/c/Users/juanp/Documents/Proyectos/proyecto-final-web/web_project/web_project/angular-frontend/src/app/pages/experiments/experiment-list/experiment-list.component.css
+7. /mnt/c/Users/juanp/Documents/Proyectos/proyecto-final-web/web_project/web_project/angular-frontend/src/app/app.component.html
+8. /mnt/c/Users/juanp/Documents/Proyectos/proyecto-final-web/web_project/web_project/angular-frontend/src/app/app.component.css
+9. Lista todos los .css y .html bajo pages/ para ver el estado actual
+
+## GENERA UN PLAN CON:
+=== DIAGNOSTICO ===
+- Que problemas tiene el diseno actual
+- Que pasa con experimentos (tabla duplicada)
+
+=== PLAN DE ACCION ===
+Para CADA archivo, especifica exactamente que cambiar:
+1. styles.css: reemplazar variables de color con tema oscuro, agregar utilidades modernas
+2. navbar: glassmorphism, mejorar responsive (hamburger menu)
+3. footer: estilo oscuro consistente
+4. experiment-list: eliminar tabla duplicada, unificar en una sola tabla con DataTableComponent, usar estilos oscuros
+5. app.component.css: ajustar padding para navbar fixed
+6. Otros CSS globales: aplicar tema oscuro
+
+=== PALETA DE COLORES ===
+- Fondo principal: #0f172a
+- Fondo secundario: #1e293b
+- Surface/cards: #1e293b con borde #334155
+- Texto primario: #f1f5f9
+- Texto secundario: #94a3b8
+- Acento primario: #3b82f6 (azul brillante)
+- Acento hover: #2563eb
+- Exito: #22c55e
+- Error: #ef4444
+- Warning: #f59e0b
+- Borde sutil: rgba(255,255,255,0.1)
+- Glass: rgba(30, 41, 59, 0.8) con backdrop-filter: blur(12px)
+
+=== REGLAS DEL PLAN ===
+- NO modifiques archivos .ts (logica) de componentes existentes
+- Solo modifica CSS y HTML templates
+- El plan debe ser ejecutable paso a paso

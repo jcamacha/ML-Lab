@@ -1,0 +1,215 @@
+<div class="admin-container">
+  <header class="admin-header">
+    <h1>Consola de Administración</h1>
+    <p class="description">Gestiona los recursos compartidos, las cuentas de usuario y el control de acceso del laboratorio.</p>
+  </header>
+
+  <app-loading-spinner [isLoading]="isLoading"></app-loading-spinner>
+
+  @if (errorMessage) {
+    <app-error-message [message]="errorMessage" (retry)="loadAllData()"></app-error-message>
+  }
+
+  @if (successMessage) {
+    <div class="success-alert">
+      {{ successMessage }}
+    </div>
+  }
+
+  @if (!isLoading) {
+    <!-- SECCIÓN DE ESTADÍSTICAS -->
+    @if (stats) {
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon users-icon">👥</div>
+          <div class="stat-content">
+            <span class="stat-label">Usuarios</span>
+            <span class="stat-value">{{ stats.totalUsers }}</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon datasets-icon">📊</div>
+          <div class="stat-content">
+            <span class="stat-label">Datasets</span>
+            <span class="stat-value">{{ stats.totalDatasets }}</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon models-icon">🤖</div>
+          <div class="stat-content">
+            <span class="stat-label">Modelos</span>
+            <span class="stat-value">{{ stats.totalModels }}</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon experiments-icon">🧪</div>
+          <div class="stat-content">
+            <span class="stat-label">Experimentos</span>
+            <span class="stat-value">{{ stats.totalExperiments }}</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon files-icon">📁</div>
+          <div class="stat-content">
+            <span class="stat-label">Archivos Subidos</span>
+            <span class="stat-value">{{ stats.totalFiles }}</span>
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- TABS DE NAVEGACIÓN -->
+    <div class="admin-tabs">
+      <button class="tab-btn" [class.active]="activeTab === 'users'" (click)="changeTab('users')">
+        Usuarios <span class="tab-badge">{{ users.length }}</span>
+      </button>
+      <button class="tab-btn" [class.active]="activeTab === 'datasets'" (click)="changeTab('datasets')">
+        Datasets <span class="tab-badge">{{ datasets.length }}</span>
+      </button>
+      <button class="tab-btn" [class.active]="activeTab === 'models'" (click)="changeTab('models')">
+        Modelos de ML <span class="tab-badge">{{ models.length }}</span>
+      </button>
+    </div>
+
+    <!-- CONTENIDO DE LOS TABS -->
+    <div class="card admin-card">
+      
+      <!-- TAB: USUARIOS -->
+      @if (activeTab === 'users') {
+        <div class="card-title-section">
+          <h2>Gestión de Usuarios</h2>
+          <span class="count-indicator">{{ users.length }} usuarios en total</span>
+        </div>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Correo Electrónico</th>
+                <th>Rol</th>
+                <th>Fecha de Creación</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (user of users; track user.userId) {
+                <tr>
+                  <td class="font-mono">{{ user.userId }}</td>
+                  <td class="user-name">{{ user.name }}</td>
+                  <td>{{ user.email }}</td>
+                  <td>
+                    <span class="status-badge" [class.admin-role]="user.role === 'ADMIN'" [class.user-role]="user.role !== 'ADMIN'">
+                      {{ user.role || 'USER' }}
+                    </span>
+                  </td>
+                  <td>{{ user.createdAt | date:'mediumDate' }}</td>
+                  <td>
+                    @if (user.email !== 'juanESCOM@ipn.com') {
+                      <button class="btn-danger btn-sm" (click)="deleteUser(user.userId, user.name)">
+                        Eliminar
+                      </button>
+                    } @else {
+                      <span class="text-muted italic">Sistema</span>
+                    }
+                  </td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="6" class="text-center">No hay usuarios registrados.</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+
+      <!-- TAB: DATASETS -->
+      @if (activeTab === 'datasets') {
+        <div class="card-title-section">
+          <h2>Datasets Globales</h2>
+          <span class="count-indicator">{{ datasets.length }} datasets en total</span>
+        </div>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Tipo</th>
+                <th>Muestras</th>
+                <th>Características</th>
+                <th>Variable Objetivo</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (dataset of datasets; track dataset.datasetId) {
+                <tr>
+                  <td class="font-mono">{{ dataset.datasetId }}</td>
+                  <td class="resource-name">{{ dataset.name }}</td>
+                  <td class="text-truncate">{{ dataset.description }}</td>
+                  <td><span class="type-badge">{{ dataset.datasetType }}</span></td>
+                  <td>{{ dataset.numSamples }}</td>
+                  <td>{{ dataset.numFeatures }}</td>
+                  <td><span class="font-mono">{{ dataset.targetVariable }}</span></td>
+                  <td>
+                    <button class="btn-danger btn-sm" (click)="deleteDataset(dataset.datasetId, dataset.name)">
+                      Eliminar
+                    </button>
+                  </td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="8" class="text-center">No hay datasets registrados en el sistema.</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+
+      <!-- TAB: MODELOS -->
+      @if (activeTab === 'models') {
+        <div class="card-title-section">
+          <h2>Modelos de Machine Learning</h2>
+          <span class="count-indicator">{{ models.length }} modelos en total</span>
+        </div>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Categoría</th>
+                <th>Descripción</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (model of models; track model.modelId) {
+                <tr>
+                  <td class="font-mono">{{ model.modelId }}</td>
+                  <td class="resource-name">{{ model.name }}</td>
+                  <td><span class="category-badge">{{ model.category }}</span></td>
+                  <td class="text-truncate">{{ model.description }}</td>
+                  <td>
+                    <button class="btn-danger btn-sm" (click)="deleteModel(model.modelId, model.name)">
+                      Eliminar
+                    </button>
+                  </td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="5" class="text-center">No hay modelos registrados en el sistema.</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+
+    </div>
+  }
+</div>

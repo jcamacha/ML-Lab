@@ -48,4 +48,14 @@ public class ExperimentService {
 
         return repository.findByModelId(modelId);
     }
+
+    // GET EXPERIMENT BY ID
+    public java.util.Optional<Experiment> getExperimentById(Long id) {
+        return repository.findById(id);
+    }
+
+    // DELETE EXPERIMENT
+    public void deleteExperiment(Long id) {
+        repository.deleteById(id);
+    }
 }
