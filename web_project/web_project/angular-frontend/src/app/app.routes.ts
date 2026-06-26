@@ -1,3 +1,48 @@
 import { Routes } from '@angular/router';
+import { HomeComponent } from './pages/home/home.component';
+import { LoginComponent } from './pages/login/login.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { UserListComponent } from './pages/users/user-list/user-list.component';
+import { UserFormComponent } from './pages/users/user-form/user-form.component';
+import { UserDetailComponent } from './pages/users/user-detail/user-detail.component';
+import { DatasetListComponent } from './pages/datasets/dataset-list/dataset-list.component';
+import { DatasetFormComponent } from './pages/datasets/dataset-form/dataset-form.component';
+import { DatasetDetailComponent } from './pages/datasets/dataset-detail/dataset-detail.component';
+import { ModelListComponent } from './pages/models-ml/model-list/model-list.component';
+import { ModelFormComponent } from './pages/models-ml/model-form/model-form.component';
+import { ModelDetailComponent } from './pages/models-ml/model-detail/model-detail.component';
+import { ExperimentListComponent } from './pages/experiments/experiment-list/experiment-list.component';
+import { ExperimentFormComponent } from './pages/experiments/experiment-form/experiment-form.component';
+import { ExperimentDetailComponent } from './pages/experiments/experiment-detail/experiment-detail.component';
+import { ExperimentRunComponent } from './pages/experiments/experiment-run/experiment-run.component';
+import { FileListComponent } from './pages/files/file-list/file-list.component';
+import { FileUploadComponent } from './pages/files/file-upload/file-upload.component';
+import { MlLinearComponent } from './pages/ml/ml-linear/ml-linear.component';
+import { MlLogisticComponent } from './pages/ml/ml-logistic/ml-logistic.component';
+import { MlKnnComponent } from './pages/ml/ml-knn/ml-knn.component';
 
-export const routes: Routes = [];
+export const routes: Routes = [
+  { path: '', component: HomeComponent },
+  { path: 'home', component: HomeComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'dashboard', component: DashboardComponent },
+  { path: 'users', component: UserListComponent },
+  { path: 'users/new', component: UserFormComponent },
+  { path: 'users/:id', component: UserDetailComponent },
+  { path: 'datasets', component: DatasetListComponent },
+  { path: 'datasets/new', component: DatasetFormComponent },
+  { path: 'datasets/:id', component: DatasetDetailComponent },
+  { path: 'models', component: ModelListComponent },
+  { path: 'models/new', component: ModelFormComponent },
+  { path: 'models/:id', component: ModelDetailComponent },
+  { path: 'experiments', component: ExperimentListComponent },
+  { path: 'experiments/new', component: ExperimentFormComponent },
+  { path: 'experiments/:id', component: ExperimentDetailComponent },
+  { path: 'experiments/:id/run', component: ExperimentRunComponent },
+  { path: 'files', component: FileListComponent },
+  { path: 'files/upload', component: FileUploadComponent },
+  { path: 'ml/linear', component: MlLinearComponent },
+  { path: 'ml/logistic', component: MlLogisticComponent },
+  { path: 'ml/knn', component: MlKnnComponent },
+  { path: '**', redirectTo: '' }
+];
