@@ -1,17 +1,18 @@
 .footer {
-  background-color: var(--surface-color);
+  background-color: var(--bg-secondary);
   color: var(--text-secondary);
   text-align: center;
-  padding: 1.5rem;
-  font-family: var(--font-sans, sans-serif);
-  border-top: 1px solid var(--border-color);
+  padding: 2rem 1.5rem;
+  font-family: var(--font-body);
+  border-top: 1px solid var(--border);
   margin-top: auto;
 }
 
 .footer p {
   margin: 0;
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   font-weight: 500;
-  letter-spacing: 0.025em;
-  opacity: 0.8;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  opacity: 0.5;
 }

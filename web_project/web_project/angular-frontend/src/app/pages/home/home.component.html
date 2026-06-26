@@ -1,47 +1,72 @@
 <div class="home-container">
   <header class="home-header">
-    <h1>Laboratorio de Machine Learning (ML Lab)</h1>
-    <p class="subtitle">Plataforma educativa para la experimentación con algoritmos de aprendizaje automático.</p>
+    <h1>Laboratorio de Machine Learning</h1>
+    <p class="subtitle">Plataforma educativa para la experimentación con algoritmos de aprendizaje automático en ESCOM.</p>
   </header>
 
-  <section class="description-section">
-    <h2>Sobre el Proyecto</h2>
-    <p>Esta aplicación web permite a alumnos y profesores de ESCOM interactuar con datasets, entrenar y evaluar modelos de Machine Learning (Regresión Lineal, Regresión Logística, KNN), gestionar archivos de datos y generar reportes en formato PDF. Es una herramienta diseñada para facilitar el aprendizaje práctico de la Inteligencia Artificial.</p>
-  </section>
-
-  <section class="cards-section">
-    <h2>Acceso Rápido</h2>
-    <div class="grid-container">
-      <div class="card">
-        <h3>Gestión de Datasets</h3>
-        <p>Sube, visualiza y administra los conjuntos de datos para tus experimentos.</p>
-        <a routerLink="/datasets" class="btn">Ir a Datasets</a>
-      </div>
-      <div class="card">
-        <h3>Modelos de ML</h3>
-        <p>Explora el catálogo de modelos disponibles y sus configuraciones.</p>
-        <a routerLink="/models" class="btn">Ir a Modelos</a>
-      </div>
-      <div class="card">
-        <h3>Experimentos</h3>
-        <p>Configura, ejecuta y analiza los resultados de tus pruebas de Machine Learning.</p>
-        <a routerLink="/experiments" class="btn">Ir a Experimentos</a>
-      </div>
-      <div class="card">
-        <h3>Archivos y Carga</h3>
-        <p>Sube y gestiona tus archivos CSV/JSON en la plataforma de almacenamiento.</p>
-        <a routerLink="/files" class="btn">Ir a Archivos</a>
-      </div>
-      <div class="card">
-        <h3>Algoritmos Interactivos</h3>
-        <p>Prueba ejecuciones rápidas de regresiones y clasificación KNN de forma visual.</p>
-        <a routerLink="/ml" class="btn">Ir a ML</a>
-      </div>
-      <div class="card">
-        <h3>Usuarios</h3>
-        <p>Administra los usuarios registrados que acceden a la plataforma.</p>
-        <a routerLink="/users" class="btn">Ir a Usuarios</a>
+  <div class="bento-grid">
+    <!-- Card 1: Sobre el Proyecto (col-span-3) -->
+    <div class="bento-card col-span-3 about-card">
+      <div class="card-content">
+        <h2>Sobre el Proyecto</h2>
+        <p>Esta plataforma web permite a alumnos y profesores interactuar con conjuntos de datos, entrenar y evaluar modelos de Machine Learning, gestionar archivos en la nube y generar reportes PDF/UA estructurados. Diseñado como una herramienta integral para la experimentación práctica y rigurosa en el aula.</p>
       </div>
     </div>
-  </section>
+
+    <!-- Card 2: Experimentos (col-span-1, highlighted) -->
+    <div class="bento-card col-span-1 highlight-card">
+      <div class="card-content">
+        <h3>Experimentos</h3>
+        <p>Configura, ejecuta y analiza tus pruebas de aprendizaje automático.</p>
+        <a routerLink="/experiments" class="btn-bento">Iniciar Experimento</a>
+      </div>
+    </div>
+
+    <!-- Card 3: Gestión de Datasets (col-span-1) -->
+    <div class="bento-card col-span-1">
+      <div class="card-content">
+        <h3>Datasets</h3>
+        <p>Visualiza y administra los conjuntos de datos para tus pruebas.</p>
+        <a routerLink="/datasets" class="btn-bento-secondary">Explorar Datasets</a>
+      </div>
+    </div>
+
+    <!-- Card 4: Modelos de ML (col-span-2) -->
+    <div class="bento-card col-span-2">
+      <div class="card-content">
+        <h3>Modelos de ML</h3>
+        <p>Explora el catálogo de modelos generados y sus métricas detalladas para la evaluación de desempeño.</p>
+        <a routerLink="/models" class="btn-bento-secondary">Ver Catálogo</a>
+      </div>
+    </div>
+
+    <!-- Card 5: Archivos (col-span-1) -->
+    <div class="bento-card col-span-1">
+      <div class="card-content">
+        <h3>Archivos</h3>
+        <p>Almacena y gestiona archivos CSV/JSON en la plataforma.</p>
+        <a routerLink="/files" class="btn-bento-secondary">Almacenamiento</a>
+      </div>
+    </div>
+
+    <!-- Card 6: Algoritmos Interactivos (col-span-2) -->
+    <div class="bento-card col-span-2 ml-card">
+      <div class="card-content">
+        <h3>Algoritmos Interactivos</h3>
+        <p>Prueba ejecuciones rápidas y visualizaciones paso a paso para algoritmos de Regresión Lineal, Regresión Logística y KNN en tiempo real.</p>
+        <div class="interactive-links">
+          <a routerLink="/ml" class="btn-bento">Probar Algoritmos</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 7: Usuarios (col-span-2) -->
+    <div class="bento-card col-span-2">
+      <div class="card-content">
+        <h3>Usuarios</h3>
+        <p>Administración de cuentas, perfiles y roles de usuarios registrados en el sistema del laboratorio.</p>
+        <a routerLink="/users" class="btn-bento-secondary">Gestión de Usuarios</a>
+      </div>
+    </div>
+  </div>
 </div>

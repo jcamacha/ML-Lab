@@ -1,56 +1,65 @@
 .user-detail-container {
   max-width: 800px;
   margin: 0 auto;
-  padding: 2rem 1rem;
-  font-family: Arial, sans-serif;
-  color: black;
+  padding: 3rem 1.5rem;
+  font-family: var(--font-sans);
+  color: var(--text-primary);
 }
 
 .detail-card {
-  background-color: white;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  background-color: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xl);
   overflow: hidden;
 }
 
 .card-header {
-  background-color: #f5f5f5;
-  padding: 1.5rem;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid var(--border-color);
+  padding: 1.75rem 2.25rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
 .card-header h2 {
+  font-family: var(--font-serif);
   margin: 0;
-  color: #1a237e;
+  color: var(--text-primary);
+  font-size: 1.65rem;
 }
 
 .btn-edit {
-  background-color: #1a237e;
+  background-color: var(--accent-color);
   color: white;
   text-decoration: none;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  font-weight: bold;
-  font-size: 0.9rem;
-  transition: background-color 0.2s;
+  padding: 0.6rem 1.25rem;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: transform var(--transition-fast), background-color var(--transition-fast), box-shadow var(--transition-fast);
+  box-shadow: 0 2px 8px rgba(94, 92, 230, 0.25);
+  font-family: var(--font-sans);
 }
 
 .btn-edit:hover {
-  background-color: #0d1b60;
+  background-color: #4c4ad1;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(94, 92, 230, 0.4);
+}
+
+.btn-edit:active {
+  transform: translateY(0) scale(0.98);
 }
 
 .card-body {
-  padding: 2rem;
+  padding: 2.25rem;
 }
 
 .detail-group {
   margin-bottom: 1.5rem;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 1rem;
 }
 
 .detail-group:last-child {
@@ -61,37 +70,46 @@
 
 .detail-group label {
   display: block;
-  font-weight: bold;
-  color: #555;
-  margin-bottom: 0.25rem;
-  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 0.35rem;
+  font-size: 0.85rem;
 }
 
 .detail-group .value {
-  font-size: 1.1rem;
-  color: black;
+  font-size: 1.05rem;
+  color: var(--text-primary);
+}
+
+.detail-group:first-child .value {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  color: var(--text-secondary);
 }
 
 .card-footer {
-  background-color: #fafafa;
-  padding: 1.5rem;
-  border-top: 1px solid #ddd;
+  background-color: rgba(0, 0, 0, 0.15);
+  padding: 1.5rem 2.25rem;
+  border-top: 1px solid var(--border-color);
   display: flex;
   justify-content: flex-start;
 }
 
 .btn-back {
-  background-color: #f5f5f5;
-  color: #333;
+  background-color: transparent;
+  color: var(--text-secondary);
   text-decoration: none;
-  border: 1px solid #ccc;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  font-weight: bold;
-  font-size: 0.9rem;
-  transition: background-color 0.2s;
+  border: 1px solid var(--border-color);
+  padding: 0.6rem 1.25rem;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: all var(--transition-fast);
 }
 
 .btn-back:hover {
-  background-color: #e0e0e0;
+  background-color: rgba(255, 255, 255, 0.03);
+  border-color: var(--border-hover);
+  color: var(--text-primary);
+  transform: translateY(-1px);
 }

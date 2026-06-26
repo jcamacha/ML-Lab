@@ -1,7 +1,7 @@
 <div class="dashboard-container">
   <header class="dashboard-header">
     <h1>Panel de Control</h1>
-    <p>Visualiza el estado actual de tus recursos de Machine Learning</p>
+    <p>Supervisa el estado y los recursos de aprendizaje automático de tu laboratorio.</p>
   </header>
 
   <app-loading-spinner [isLoading]="isLoading"></app-loading-spinner>
@@ -11,42 +11,56 @@
   }
 
   @if (!isLoading && !errorMessage) {
-    <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-icon-placeholder datasets-color"></div>
+    <div class="dashboard-bento">
+      <!-- Card 1: Experimentos (2 columns wide) -->
+      <div class="stat-card col-span-2 experiments-card">
+        <div class="card-header-icon">
+          <div class="stat-badge-indicator experiments-color">Experimentos</div>
+        </div>
         <div class="stat-info">
-          <h3>Datasets</h3>
+          <h3>Experimentos Ejecutados</h3>
+          <p class="stat-number">{{ totalExperiments }}</p>
+          <div class="stat-meta">Historial completo y monitoreo de tareas en ejecución.</div>
+          <a routerLink="/experiments" class="stat-link">Ver Experimentos</a>
+        </div>
+      </div>
+
+      <!-- Card 2: Datasets (1 column wide) -->
+      <div class="stat-card col-span-1 datasets-card">
+        <div class="card-header-icon">
+          <div class="stat-badge-indicator datasets-color">Datasets</div>
+        </div>
+        <div class="stat-info">
+          <h3>Datasets Cargados</h3>
           <p class="stat-number">{{ totalDatasets }}</p>
+          <div class="stat-meta">Conjuntos de datos para entrenamiento.</div>
           <a routerLink="/datasets" class="stat-link">Administrar Datasets</a>
         </div>
       </div>
 
-      <div class="stat-card">
-        <div class="stat-icon-placeholder models-color"></div>
+      <!-- Card 3: Modelos (1 column wide) -->
+      <div class="stat-card col-span-1 models-card">
+        <div class="card-header-icon">
+          <div class="stat-badge-indicator models-color">Modelos</div>
+        </div>
         <div class="stat-info">
-          <h3>Modelos</h3>
+          <h3>Modelos de ML</h3>
           <p class="stat-number">{{ totalModels }}</p>
-          <a routerLink="/models" class="stat-link">Ver Modelos</a>
+          <div class="stat-meta">Modelos entrenados listos para predicciones.</div>
+          <a routerLink="/models" class="stat-link">Ver Catálogo</a>
         </div>
       </div>
 
-      <div class="stat-card">
-        <div class="stat-icon-placeholder experiments-color"></div>
-        <div class="stat-info">
-          <h3>Experimentos</h3>
-          <p class="stat-number">{{ totalExperiments }}</p>
-          <a routerLink="/experiments" class="stat-link">Ver Experimentos</a>
+      <!-- Card 4: Acciones Disponibles (4 columns wide) -->
+      <div class="quick-actions-card col-span-4">
+        <h3>Acciones Disponibles</h3>
+        <p class="actions-desc">Accesos rápidos para tareas de experimentación.</p>
+        <div class="actions-container">
+          <a routerLink="/experiments/new" class="action-btn">Nuevo Experimento</a>
+          <a routerLink="/files" class="action-btn secondary">Subir Archivo de Datos</a>
+          <a routerLink="/ml" class="action-btn secondary">Probar Algoritmo</a>
         </div>
       </div>
     </div>
-
-    <section class="quick-actions">
-      <h2>Acciones Disponibles</h2>
-      <div class="actions-container">
-        <a routerLink="/experiments" class="action-btn">Nuevo Experimento</a>
-        <a routerLink="/files" class="action-btn">Subir Archivo</a>
-        <a routerLink="/ml" class="action-btn">Probar Algoritmo</a>
-      </div>
-    </section>
   }
 </div>

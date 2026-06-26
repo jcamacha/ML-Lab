@@ -2,50 +2,53 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: calc(100vh - 140px);
-  background-color: #fafafa;
-  font-family: Arial, sans-serif;
-  padding: 2rem 1rem;
+  min-height: calc(100vh - 160px);
+  background-color: var(--bg-color);
+  font-family: var(--font-sans);
+  padding: 3rem 1.5rem;
 }
 
 .upload-card {
-  background-color: white;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 2.5rem;
+  background-color: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 3rem 2.5rem;
   width: 100%;
-  max-width: 500px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  max-width: 520px;
+  box-shadow: var(--shadow-xl);
 }
 
 .upload-card h2 {
+  font-family: var(--font-serif);
   margin-top: 0;
   margin-bottom: 0.5rem;
-  color: #1a237e;
+  color: var(--text-primary);
   text-align: center;
+  font-size: 1.8rem;
+  font-weight: 700;
 }
 
 .subtitle {
-  color: #666;
+  color: var(--text-secondary);
   text-align: center;
-  margin-bottom: 2rem;
-  font-size: 0.95rem;
+  margin-bottom: 2.25rem;
+  font-size: 0.9rem;
 }
 
 .drop-zone {
-  border: 2px dashed #ccc;
-  border-radius: 4px;
-  padding: 2rem;
+  border: 1.5px dashed var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 3rem 2rem;
   text-align: center;
-  background-color: #fafafa;
+  background-color: rgba(0, 0, 0, 0.1);
   cursor: pointer;
   position: relative;
-  transition: border-color 0.2s, background-color 0.2s;
+  transition: border-color var(--transition-fast), background-color var(--transition-fast);
 }
 
 .drop-zone:hover {
-  border-color: #1a237e;
-  background-color: rgba(26, 35, 126, 0.02);
+  border-color: var(--accent-color);
+  background-color: rgba(94, 92, 230, 0.03);
 }
 
 .file-input {
@@ -66,12 +69,13 @@
 }
 
 .file-icon-styled {
-  width: 48px;
-  height: 48px;
-  border: 2px solid #aaa;
-  border-radius: 4px;
-  margin-bottom: 1rem;
+  width: 44px;
+  height: 44px;
+  border: 1.5px solid var(--text-secondary);
+  border-radius: var(--radius-sm);
+  margin-bottom: 1.25rem;
   position: relative;
+  opacity: 0.6;
 }
 
 .file-icon-styled::after {
@@ -79,36 +83,43 @@
   position: absolute;
   top: 0;
   right: 0;
-  width: 12px;
-  height: 12px;
-  border-bottom: 2px solid #aaa;
-  border-left: 2px solid #aaa;
-  background-color: #fafafa;
-  border-top-right-radius: 2px;
+  width: 10px;
+  height: 10px;
+  border-bottom: 1.5px solid var(--text-secondary);
+  border-left: 1.5px solid var(--text-secondary);
+  background-color: var(--surface-color);
+  border-top-right-radius: 1px;
 }
 
 .drop-text {
-  font-weight: bold;
-  color: #333;
+  font-weight: 600;
+  color: var(--text-primary);
   margin-bottom: 0.5rem;
+  font-size: 1rem;
 }
 
 .file-types {
-  font-size: 0.85rem;
-  color: #666;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
 }
 
 .selected-file-info {
-  margin-top: 1.5rem;
-  background-color: #f5f5f5;
-  border: 1px solid #ddd;
-  padding: 1rem;
-  border-radius: 4px;
+  margin-top: 1.75rem;
+  background-color: rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--border-color);
+  padding: 1.25rem;
+  border-radius: var(--radius-md);
 }
 
 .selected-file-info p {
   margin: 0.5rem 0;
-  color: #333;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.selected-file-info p strong {
+  color: var(--text-primary);
+  font-weight: 600;
 }
 
 .selected-file-info p:first-child {
@@ -122,56 +133,73 @@
 .btn-group {
   display: flex;
   gap: 1rem;
-  margin-top: 1.5rem;
+  margin-top: 2rem;
 }
 
 .btn-submit {
   flex-grow: 2;
-  background-color: #1a237e;
+  background-color: var(--accent-color);
   color: white;
   border: none;
-  padding: 0.75rem;
-  font-size: 1rem;
-  font-weight: bold;
-  border-radius: 4px;
+  padding: 0.8rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: var(--radius-md);
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: background-color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+  box-shadow: 0 2px 8px rgba(94, 92, 230, 0.25);
+  font-family: var(--font-sans);
 }
 
 .btn-submit:hover {
-  background-color: #0d1b60;
+  background-color: #4c4ad1;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(94, 92, 230, 0.4);
+}
+
+.btn-submit:active {
+  transform: translateY(0) scale(0.98);
 }
 
 .btn-submit:disabled {
-  background-color: #cccccc;
+  background-color: var(--text-muted);
+  color: var(--text-secondary);
   cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  opacity: 0.5;
 }
 
 .btn-cancel {
   flex-grow: 1;
-  background-color: #f5f5f5;
-  color: #333;
-  border: 1px solid #ccc;
+  background-color: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
   text-decoration: none;
-  padding: 0.75rem;
-  font-size: 1rem;
-  font-weight: bold;
-  border-radius: 4px;
+  padding: 0.8rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: var(--radius-md);
   text-align: center;
-  transition: background-color 0.2s;
+  transition: all var(--transition-fast);
+  font-family: var(--font-sans);
 }
 
 .btn-cancel:hover {
-  background-color: #e0e0e0;
+  background-color: rgba(255, 255, 255, 0.03);
+  border-color: var(--border-hover);
+  color: var(--text-primary);
+  transform: translateY(-1px);
 }
 
 .success-alert {
-  background-color: #e8f5e9;
-  border: 1px solid #c8e6c9;
-  color: #2e7d32;
+  background-color: rgba(48, 209, 88, 0.1);
+  border: 1px solid rgba(48, 209, 88, 0.2);
+  color: var(--color-success);
   padding: 0.75rem;
-  border-radius: 4px;
-  margin-bottom: 1rem;
+  border-radius: var(--radius-md);
+  margin-bottom: 1.5rem;
   text-align: center;
-  font-weight: bold;
+  font-weight: 600;
+  font-size: 0.9rem;
 }
