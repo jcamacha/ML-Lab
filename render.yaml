@@ -1,0 +1,24 @@
+# ML Lab - Render Blueprint
+# Despliegue automatico del backend Spring Boot en Render
+# Conecta tu repositorio de GitHub a Render y Render detectara este archivo
+
+services:
+  - type: web
+    name: ml-lab-backend
+    env: java
+    plan: free
+    buildCommand: cd web_project/web_project/java-backend && mvn clean package -DskipTests
+    startCommand: java -jar web_project/web_project/java-backend/target/ml-lab-backend-1.0-SNAPSHOT.jar
+    envVars:
+      - key: SPRING_DATASOURCE_URL
+        sync: false
+      - key: SPRING_DATASOURCE_USERNAME
+        sync: false
+      - key: SPRING_DATASOURCE_PASSWORD
+        sync: false
+      - key: SPRING_MAIL_USERNAME
+        sync: false
+      - key: SPRING_MAIL_PASSWORD
+        sync: false
+      - key: PORT
+        value: 8080

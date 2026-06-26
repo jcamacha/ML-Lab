@@ -1,0 +1,112 @@
+<div class="dataset-form-container">
+  <div class="form-card">
+    <h2>{{ isEditMode ? 'Editar Dataset' : 'Nuevo Dataset' }}</h2>
+    <p class="subtitle">{{ isEditMode ? 'Modifica los datos del conjunto de datos' : 'Ingresa la información para registrar un nuevo dataset' }}</p>
+
+    <app-loading-spinner [isLoading]="isLoading"></app-loading-spinner>
+    
+    @if (errorMessage) {
+      <app-error-message [message]="errorMessage" (retry)="onSubmit()"></app-error-message>
+    }
+
+    @if (successMessage) {
+      <div class="success-alert">
+        {{ successMessage }}
+      </div>
+    }
+
+    @if (!isLoading) {
+      <form (ngSubmit)="onSubmit()" #datasetForm="ngForm">
+        <div class="form-group">
+          <label for="name">Nombre del Dataset</label>
+          <input 
+            type="text" 
+            id="name" 
+            name="name" 
+            [(ngModel)]="dataset.name" 
+            required 
+            placeholder="Ej. Iris Dataset, Boston Housing"
+            class="form-control"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="description">Descripción</label>
+          <textarea 
+            id="description" 
+            name="description" 
+            [(ngModel)]="dataset.description" 
+            required 
+            placeholder="Describe el contenido y propósito del conjunto de datos..."
+            class="form-control"
+            rows="3"
+          ></textarea>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col">
+            <label for="datasetType">Tipo de Problema</label>
+            <select 
+              id="datasetType" 
+              name="datasetType" 
+              [(ngModel)]="dataset.datasetType" 
+              required
+              class="form-control"
+            >
+              <option value="Clasificación">Clasificación</option>
+              <option value="Regresión">Regresión</option>
+            </select>
+          </div>
+
+          <div class="form-group col">
+            <label for="targetVariable">Variable Objetivo (Target)</label>
+            <input 
+              type="text" 
+              id="targetVariable" 
+              name="targetVariable" 
+              [(ngModel)]="dataset.targetVariable" 
+              required 
+              placeholder="Ej. target, species, price"
+              class="form-control"
+            />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col">
+            <label for="numSamples">Número de Muestras (Filas)</label>
+            <input 
+              type="number" 
+              id="numSamples" 
+              name="numSamples" 
+              [(ngModel)]="dataset.numSamples" 
+              required 
+              min="1"
+              class="form-control"
+            />
+          </div>
+
+          <div class="form-group col">
+            <label for="numFeatures">Número de Atributos (Columnas)</label>
+            <input 
+              type="number" 
+              id="numFeatures" 
+              name="numFeatures" 
+              [(ngModel)]="dataset.numFeatures" 
+              required 
+              min="1"
+              class="form-control"
+            />
+          </div>
+        </div>
+
+        <div class="btn-group">
+          <button type="submit" [disabled]="!datasetForm.form.valid" class="btn-submit">
+            {{ isEditMode ? 'Guardar Cambios' : 'Registrar Dataset' }}
+          </button>
+          <a routerLink="/datasets" class="btn-cancel">Cancelar</a>
+        </div>
+      </form>
+    }
+  </div>
+</div>

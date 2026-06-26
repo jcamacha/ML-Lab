@@ -1,0 +1,70 @@
+<div class="model-form-container">
+  <div class="form-card">
+    <h2>{{ isEditMode ? 'Editar Modelo' : 'Nuevo Modelo' }}</h2>
+    <p class="subtitle">{{ isEditMode ? 'Modifica los metadatos del modelo' : 'Ingresa la información para catalogar un nuevo modelo' }}</p>
+
+    <app-loading-spinner [isLoading]="isLoading"></app-loading-spinner>
+    
+    @if (errorMessage) {
+      <app-error-message [message]="errorMessage" (retry)="onSubmit()"></app-error-message>
+    }
+
+    @if (successMessage) {
+      <div class="success-alert">
+        {{ successMessage }}
+      </div>
+    }
+
+    @if (!isLoading) {
+      <form (ngSubmit)="onSubmit()" #modelForm="ngForm">
+        <div class="form-group">
+          <label for="name">Nombre del Modelo</label>
+          <input 
+            type="text" 
+            id="name" 
+            name="name" 
+            [(ngModel)]="mlModel.name" 
+            required 
+            placeholder="Ej. Regresión Lineal Regularizada, KNN Clasificador"
+            class="form-control"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="category">Categoría de Modelo</label>
+          <select 
+            id="category" 
+            name="category" 
+            [(ngModel)]="mlModel.category" 
+            required
+            class="form-control"
+          >
+            <option value="Regresión">Regresión</option>
+            <option value="Clasificación">Clasificación</option>
+            <option value="Agrupamiento">Agrupamiento (Clustering)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="description">Descripción / Propósito</label>
+          <textarea 
+            id="description" 
+            name="description" 
+            [(ngModel)]="mlModel.description" 
+            required 
+            placeholder="Introduce los detalles teóricos o de uso del algoritmo..."
+            class="form-control"
+            rows="4"
+          ></textarea>
+        </div>
+
+        <div class="btn-group">
+          <button type="submit" [disabled]="!modelForm.form.valid" class="btn-submit">
+            {{ isEditMode ? 'Guardar Cambios' : 'Registrar Modelo' }}
+          </button>
+          <a routerLink="/models" class="btn-cancel">Cancelar</a>
+        </div>
+      </form>
+    }
+  </div>
+</div>

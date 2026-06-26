@@ -1,0 +1,44 @@
+# ML Lab - .gitignore
+
+# Entorno
+.agents/
+.env
+.env.local
+
+
+# Node / Angular
+node_modules/
+.angular/
+dist/
+
+# Java / Maven
+target/
+*.class
+*.jar
+*.war
+*.log
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# LaTeX (reportes)
+*.aux
+*.out
+*.toc
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+*.bbl
+*.blg

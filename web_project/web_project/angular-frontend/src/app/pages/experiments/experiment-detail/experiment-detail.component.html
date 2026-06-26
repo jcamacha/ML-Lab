@@ -1,0 +1,149 @@
+<div class="experiment-detail-container">
+  <app-loading-spinner [isLoading]="isLoading"></app-loading-spinner>
+  
+  @if (errorMessage) {
+    <app-error-message [message]="errorMessage" (retry)="ngOnInit()"></app-error-message>
+  }
+
+  @if (!isLoading && !errorMessage && experiment && model && dataset) {
+    <div class="detail-card">
+      <div class="card-header">
+        <h2>Detalles del Experimento #{{ experiment.experimentId }}</h2>
+        <div class="header-actions">
+          <button (click)="downloadPdf()" [disabled]="isPdfLoading" class="btn-pdf">
+            {{ isPdfLoading ? 'Generando PDF...' : 'Descargar PDF' }}
+          </button>
+          <button (click)="toggleEmailForm()" class="btn-email-toggle">
+            Compartir por Email
+          </button>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <section class="info-section">
+          <h3>Información General</h3>
+          <div class="info-grid">
+            <div class="info-item">
+              <span class="label">Modelo Algorítmico:</span>
+              <span class="value">{{ model.name }} ({{ model.category }})</span>
+            </div>
+            <div class="info-item">
+              <span class="label">Dataset de Datos:</span>
+              <span class="value">{{ dataset.name }} (Target: {{ dataset.targetVariable }})</span>
+            </div>
+            <div class="info-item">
+              <span class="label">Estado de Ejecución:</span>
+              <span class="value">
+                <span class="status-badge" [class]="experiment.status.toLowerCase()">
+                  {{ experiment.status }}
+                </span>
+              </span>
+            </div>
+            <div class="info-item">
+              <span class="label">Fecha de Registro:</span>
+              <span class="value">{{ experiment.createdAt }}</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="parameters-section">
+          <h3>Hiperparámetros de Entrada</h3>
+          <pre class="code-box"><code>{{ experiment.parameters }}</code></pre>
+        </section>
+
+        <section class="metrics-section">
+          <h3>Métricas Obtenidas</h3>
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <span class="metric-label">Accuracy (Precisión)</span>
+              <span class="metric-value">
+                {{ experiment.accuracy !== undefined ? experiment.accuracy : 'N/A' }}
+              </span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-label">MSE (Error Cuadrático Medio)</span>
+              <span class="metric-value">
+                {{ experiment.mse !== undefined ? experiment.mse : 'N/A' }}
+              </span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-label">R2 Score (Coeficiente de Determinación)</span>
+              <span class="metric-value">
+                {{ experiment.r2Score !== undefined ? experiment.r2Score : 'N/A' }}
+              </span>
+            </div>
+          </div>
+        </section>
+
+        @if (showEmailForm) {
+          <section class="email-section">
+            <h3>Enviar Resultados por Correo Electrónico</h3>
+            
+            @if (emailSuccessMessage) {
+              <div class="success-alert">{{ emailSuccessMessage }}</div>
+            }
+            @if (emailErrorMessage) {
+              <div class="error-alert">{{ emailErrorMessage }}</div>
+            }
+
+            <form (ngSubmit)="sendEmail()" #emailForm="ngForm">
+              <div class="form-group">
+                <label for="recipientEmail">Correo del Destinatario</label>
+                <input 
+                  type="email" 
+                  id="recipientEmail" 
+                  name="recipientEmail" 
+                  [(ngModel)]="recipientEmail" 
+                  required 
+                  email
+                  placeholder="ejemplo@escom.edu"
+                  class="form-control"
+                  [disabled]="isEmailSending"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="emailSubject">Asunto</label>
+                <input 
+                  type="text" 
+                  id="emailSubject" 
+                  name="emailSubject" 
+                  [(ngModel)]="emailSubject" 
+                  required 
+                  class="form-control"
+                  [disabled]="isEmailSending"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="emailBody">Cuerpo del Correo</label>
+                <textarea 
+                  id="emailBody" 
+                  name="emailBody" 
+                  [(ngModel)]="emailBody" 
+                  required 
+                  class="form-control"
+                  rows="6"
+                  [disabled]="isEmailSending"
+                ></textarea>
+              </div>
+
+              <div class="btn-group">
+                <button type="submit" [disabled]="!emailForm.form.valid || isEmailSending" class="btn-submit">
+                  {{ isEmailSending ? 'Enviando...' : 'Enviar Correo' }}
+                </button>
+                <button type="button" (click)="toggleEmailForm()" class="btn-cancel" [disabled]="isEmailSending">
+                  Cancelar
+                </button>
+              </div>
+            </form>
+          </section>
+        }
+      </div>
+
+      <div class="card-footer">
+        <a routerLink="/experiments" class="btn-back">Volver a Experimentos</a>
+      </div>
+    </div>
+  }
+</div>

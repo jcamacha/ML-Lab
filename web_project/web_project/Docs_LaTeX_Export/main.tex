@@ -1,0 +1,195 @@
+% !TEX program = lualatex
+\DocumentMetadata{
+    lang        = es-MX,
+    pdfstandard = ua-2,
+    tagging     = on,
+    tagging-setup = {math/setup=mathml-SE}
+}
+\documentclass[12pt,a4paper]{article}
+
+% ============================================================
+% PAQUETES — orden estricto
+% ============================================================
+\usepackage{fontspec}
+\usepackage{unicode-math}
+\usepackage[spanish]{babel}
+\usepackage{graphicx}
+\graphicspath{{./imagenes/}}
+\usepackage{geometry}
+\usepackage{float}
+\usepackage{subcaption}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{parskip}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{hyperref}   % SIEMPRE AL FINAL
+
+% ============================================================
+% CONFIGURACIONES — orden a-j obligatorio
+% ============================================================
+
+% a. Fuentes del sistema
+\setmainfont{Times New Roman}
+\setsansfont{Arial}
+\setmonofont{Consolas}
+
+% b. Paleta de colores institucional
+\definecolor{acento}{RGB}{0,70,127}
+\definecolor{fondocod}{RGB}{245,245,255}
+\definecolor{palabralave}{RGB}{0,90,160}
+\definecolor{comentario}{RGB}{60,130,60}
+\definecolor{cadena}{RGB}{160,50,0}
+
+% c. Definición de JavaScript (y TypeScript)
+\lstdefinelanguage{JavaScript}{
+    keywords={const,let,var,function,return,if,else,for,while,
+              class,import,export,default,async,await,constructor,extends,implements,from,import,as},
+    keywordstyle=\color{palabralave}\bfseries,
+    sensitive=true,
+    comment=[l]{//},
+    morecomment=[s]{/*}{*/},
+    morestring=[b]"
+}
+
+% d. Configuración de listings
+\lstset{
+    basicstyle=\ttfamily\footnotesize,
+    keywordstyle=\color{palabralave}\bfseries,
+    commentstyle=\color{comentario}\itshape,
+    stringstyle=\color{cadena},
+    numbers=left,
+    numberstyle=\scriptsize\color{gray!60},
+    breaklines=true,
+    frame=single,
+    rulecolor=\color{acento!40},
+    backgroundcolor=\color{fondocod},
+    tabsize=4,
+    showstringspaces=false,
+    xleftmargin=1.5em,
+    captionpos=b,
+    inputpath={./codigos/},
+    literate={á}{{\'{a}}}1 {é}{{\'{e}}}1 {í}{{\'{i}}}1 {ó}{{\'{o}}}1 {ú}{{\'{u}}}1
+             {Á}{{\'{A}}}1 {É}{{\'{E}}}1 {Í}{{\'{I}}}1 {Ó}{{\'{O}}}1 {Ú}{{\'{U}}}1
+             {ñ}{{\~{n}}}1 {Ñ}{{\~{N}}}1 {¿}{{?`}}1 {¡}{{!`}}1
+}
+
+% e. Numeración romana — OBLIGATORIO con \titleformat
+\renewcommand{\thesection}{\Roman{section}}
+
+% f. Estilo de títulos
+\titleformat{\section}
+    {\large\bfseries\color{acento}}
+    {\Roman{section}.}{0.6em}{}
+    [\vspace{-4pt}\color{acento!50}\rule{\linewidth}{0.6pt}]
+\titleformat{\subsection}
+    {\normalsize\bfseries\color{acento!80!black}}
+    {\thesubsection}{0.5em}{}
+\titleformat{\subsubsection}
+    {\small\bfseries\itshape\color{acento!60!black}}
+    {\thesubsubsection}{0.4em}{}
+
+% g. Encabezados y pies
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{acento}\textit{Tecnologias para el Desarrollo de Aplicaciones Web}}
+\fancyhead[R]{\small\color{acento}\textit{Tercer Avance del Proyecto}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+\setlength{\headheight}{14.5pt}
+
+% h. Configuración hyperref
+\hypersetup{
+    colorlinks  = true,
+    linkcolor   = acento,
+    urlcolor    = acento,
+    citecolor   = acento,
+    pdftitle    = {ML Lab: Integracion Full-Stack con Angular y Spring Boot},
+    pdfauthor   = {Camacho Acosta Juan Pablo},
+    pdflang     = {es-MX}
+}
+
+% i. Nombres en español para \autoref
+\def\figureautorefname{Figura}
+\def\tableautorefname{Tabla}
+\def\sectionautorefname{Sección}
+\def\subsectionautorefname{Sección}
+\def\lstlistingautorefname{Listado}
+
+% ============================================================
+\begin{document}
+% ============================================================
+
+% --- Portada ---
+\begin{titlepage}
+    \thispagestyle{empty}
+    \raggedright
+    \vspace*{0.8cm}
+
+    % --- Logos institucionales ---
+    \begin{minipage}[c]{0.18\textwidth}
+        \includegraphics[width=\linewidth,alt={Logotipo del Instituto Politécnico Nacional}]{logo_ipn.png}
+    \end{minipage}
+    \hspace{0.5cm}
+    \begin{minipage}[c]{0.60\textwidth}
+        {\large \textbf{Instituto Politécnico Nacional}}\\[2pt]
+        {\normalsize Escuela Superior de Cómputo}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[c]{0.15\textwidth}
+        \includegraphics[width=\linewidth,alt={Logotipo de la Escuela Superior de Cómputo}]{logo_escom.png}
+    \end{minipage}
+
+    \vspace{1.0cm}
+    \noindent\rule{\linewidth}{3pt}\\[4pt]
+    \noindent\rule{\linewidth}{0.8pt}
+    \vspace{0.6cm}
+
+    {\fontsize{24}{28}\selectfont \textbf{Tercer Avance del Proyecto}}\\[0.5cm]
+    {\LARGE ML Lab: Integracion Full-Stack con Angular y Spring Boot}\\[0.2cm]
+    {\LARGE Frontend Angular, API REST, Microservicios y Despliegue Cloud-Native}
+
+    \vspace{0.5cm}
+    \noindent\rule{\linewidth}{0.8pt}\\[4pt]
+    \noindent\rule{\linewidth}{3pt}
+
+    \vspace{0.8cm}
+    {\large \textbf{Unidad de Aprendizaje:}}\\
+    {\normalsize Tecnologias para el Desarrollo de Aplicaciones Web}
+
+    \vspace{0.5cm}
+    {\large \textbf{Integrantes del equipo:}}\\[0.4cm]
+    \hspace{1cm}$\bullet$\quad Camacho Acosta Juan Pablo\\[0.25cm]
+    \hspace{1cm}$\bullet$\quad Sanchez Ruiz Leonardo\\[0.25cm]
+    \hspace{1cm}$\bullet$\quad Silva Lejarazo Leandro Enrique\\[0.25cm]
+    \hspace{1cm}$\bullet$\quad Vallejo Covarrubias Angel Fernando
+
+    \vspace{0.5cm}
+    {\large \textbf{Profesor:}}\\
+    {\normalsize Dc. Jose Asuncion Enriquez Zarate}
+
+    \vspace{0.5cm}
+    {\large \textbf{Fecha de entrega:}} 25 de junio de 2026
+
+    \vfill
+    \noindent\rule{\linewidth}{1pt}
+\end{titlepage}
+
+\newpage
+
+% --- Índice ---
+\tableofcontents
+\newpage
+
+% --- Secciones ---
+\input{secciones/01_objetivo.tex}
+\input{secciones/02_introduccion.tex}
+\input{secciones/03_desarrollo.tex}
+\input{secciones/04_conclusiones.tex}
+\input{secciones/05_fuentes.tex}
+
+\end{document}

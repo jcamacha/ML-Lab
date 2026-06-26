@@ -1,0 +1,77 @@
+<div class="experiment-form-container">
+  <div class="form-card">
+    <h2>Nuevo Experimento</h2>
+    <p class="subtitle">Configura los parámetros, selecciona un dataset y define el modelo de ML para ejecutar el entrenamiento.</p>
+
+    <app-loading-spinner [isLoading]="isLoading"></app-loading-spinner>
+    
+    @if (errorMessage) {
+      <app-error-message [message]="errorMessage" (retry)="loadDropdownData()"></app-error-message>
+    }
+
+    @if (successMessage) {
+      <div class="success-alert">
+        {{ successMessage }}
+      </div>
+    }
+
+    @if (!isLoading) {
+      <form (ngSubmit)="onSubmit()" #experimentForm="ngForm">
+        <div class="form-group">
+          <label for="dataset">Selecciona un Dataset</label>
+          <select 
+            id="dataset" 
+            name="datasetId" 
+            [(ngModel)]="experiment.datasetId" 
+            required
+            class="form-control"
+          >
+            @for (dataset of datasets; track dataset.datasetId) {
+              <option [value]="dataset.datasetId">{{ dataset.name }} ({{ dataset.datasetType }})</option>
+            } @empty {
+              <option value="" disabled>No hay datasets disponibles. Registra uno primero.</option>
+            }
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="model">Selecciona un Modelo</label>
+          <select 
+            id="model" 
+            name="modelId" 
+            [(ngModel)]="experiment.modelId" 
+            required
+            class="form-control"
+          >
+            @for (model of models; track model.modelId) {
+              <option [value]="model.modelId">{{ model.name }} ({{ model.category }})</option>
+            } @empty {
+              <option value="" disabled>No hay modelos disponibles. Registra uno primero.</option>
+            }
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="parameters">Parámetros del Algoritmo (JSON)</label>
+          <textarea 
+            id="parameters" 
+            name="parameters" 
+            [(ngModel)]="experiment.parameters" 
+            required 
+            placeholder='Ej. { "learning_rate": 0.05, "epochs": 50 }'
+            class="form-control code-textarea"
+            rows="6"
+          ></textarea>
+          <small class="help-text">Escribe los hiperparámetros en formato de objeto JSON válido.</small>
+        </div>
+
+        <div class="btn-group">
+          <button type="submit" [disabled]="!experimentForm.form.valid || datasets.length === 0 || models.length === 0" class="btn-submit">
+            Configurar y Proceder a Ejecutar
+          </button>
+          <a routerLink="/experiments" class="btn-cancel">Cancelar</a>
+        </div>
+      </form>
+    }
+  </div>
+</div>

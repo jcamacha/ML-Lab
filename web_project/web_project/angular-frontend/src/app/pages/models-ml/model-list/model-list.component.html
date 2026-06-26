@@ -1,0 +1,53 @@
+<div class="model-list-container">
+  <div class="header-actions">
+    <h2>Catálogo de Modelos de ML</h2>
+    <a routerLink="/models/new" class="btn-create">Nuevo Modelo</a>
+  </div>
+
+  <app-loading-spinner [isLoading]="isLoading"></app-loading-spinner>
+  
+  @if (errorMessage) {
+    <app-error-message [message]="errorMessage" (retry)="loadModels()"></app-error-message>
+  }
+
+  @if (!isLoading && !errorMessage) {
+    <app-data-table 
+      [columns]="columns" 
+      [headers]="headers" 
+      [data]="models" 
+      title="Modelos Configurados en el Servidor"
+    ></app-data-table>
+
+    <div class="actions-table-container">
+      <h3>Acciones Administrativas de Modelos</h3>
+      <table class="actions-table">
+        <thead>
+          <tr>
+            <th>Nombre del Modelo</th>
+            <th>Categoría</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (model of models; track model.modelId) {
+            <tr>
+              <td><strong>{{ model.name }}</strong></td>
+              <td><span class="category-badge">{{ model.category }}</span></td>
+              <td>
+                <div class="btn-group">
+                  <a [routerLink]="['/models', model.modelId]" class="btn-action view">Ver Detalle</a>
+                  <a [routerLink]="['/models', model.modelId, 'edit']" class="btn-action edit">Editar</a>
+                  <button (click)="deleteModel(model.modelId)" class="btn-action delete">Eliminar</button>
+                </div>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="3" class="empty-cell">No hay modelos de Machine Learning configurados.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

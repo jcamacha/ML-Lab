@@ -1,0 +1,51 @@
+<div class="file-upload-container">
+  <div class="upload-card">
+    <h2>Subir Archivo de Datos</h2>
+    <p class="subtitle">Sube archivos CSV o JSON para utilizarlos en tus análisis y experimentos de Machine Learning.</p>
+
+    <app-loading-spinner [isLoading]="isLoading"></app-loading-spinner>
+    
+    @if (errorMessage) {
+      <app-error-message [message]="errorMessage" (retry)="onSubmit($event)"></app-error-message>
+    }
+
+    @if (successMessage) {
+      <div class="success-alert">
+        {{ successMessage }}
+      </div>
+    }
+
+    @if (!isLoading) {
+      <form (submit)="onSubmit($event)">
+        <div class="drop-zone">
+          <input 
+            type="file" 
+            id="fileInput" 
+            (change)="onFileSelected($event)" 
+            accept=".csv,.json"
+            class="file-input"
+          />
+          <label for="fileInput" class="drop-zone-label">
+            <div class="file-icon-styled"></div>
+            <span class="drop-text">Haz clic para buscar un archivo</span>
+            <span class="file-types">Formatos aceptados: .CSV, .JSON</span>
+          </label>
+        </div>
+
+        @if (selectedFile) {
+          <div class="selected-file-info">
+            <p><strong>Archivo seleccionado:</strong> {{ selectedFile.name }}</p>
+            <p><strong>Tamaño:</strong> {{ getFileSizeKb() }} KB</p>
+          </div>
+        }
+
+        <div class="btn-group">
+          <button type="submit" [disabled]="!selectedFile" class="btn-submit">
+            Subir Archivo
+          </button>
+          <a routerLink="/files" class="btn-cancel">Ver Archivos</a>
+        </div>
+      </form>
+    }
+  </div>
+</div>

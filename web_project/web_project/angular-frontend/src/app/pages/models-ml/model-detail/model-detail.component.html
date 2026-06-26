@@ -1,0 +1,44 @@
+<div class="model-detail-container">
+  <app-loading-spinner [isLoading]="isLoading"></app-loading-spinner>
+  
+  @if (errorMessage) {
+    <app-error-message [message]="errorMessage" (retry)="ngOnInit()"></app-error-message>
+  }
+
+  @if (!isLoading && !errorMessage && model) {
+    <div class="detail-card">
+      <div class="card-header">
+        <h2>Detalle del Modelo</h2>
+        <a [routerLink]="['/models', model.modelId, 'edit']" class="btn-edit">Editar</a>
+      </div>
+
+      <div class="card-body">
+        <div class="detail-group">
+          <label>ID de Modelo:</label>
+          <div class="value">{{ model.modelId }}</div>
+        </div>
+
+        <div class="detail-group">
+          <label>Nombre:</label>
+          <div class="value">{{ model.name }}</div>
+        </div>
+
+        <div class="detail-group">
+          <label>Categoría:</label>
+          <div class="value">
+            <span class="category-badge">{{ model.category }}</span>
+          </div>
+        </div>
+
+        <div class="detail-group">
+          <label>Descripción / Detalles Teóricos:</label>
+          <div class="value description-text">{{ model.description }}</div>
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <a routerLink="/models" class="btn-back">Volver a la Lista</a>
+      </div>
+    </div>
+  }
+</div>

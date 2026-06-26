@@ -1,0 +1,30 @@
+<div class="table-container">
+  @if (title) {
+    <h3 class="table-title">{{ title }}</h3>
+  }
+  
+  <table class="simple-table">
+    <thead>
+      <tr>
+        @for (header of (headers.length ? headers : columns); track header) {
+          <th>{{ header }}</th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @for (row of data; track row) {
+        <tr>
+          @for (col of columns; track col) {
+            <td>{{ row[col] }}</td>
+          }
+        </tr>
+      } @empty {
+        <tr>
+          <td [attr.colspan]="columns.length ? columns.length : 1" class="empty-cell">
+            No hay datos disponibles.
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

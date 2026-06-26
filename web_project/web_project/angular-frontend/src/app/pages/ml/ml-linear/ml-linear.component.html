@@ -1,0 +1,83 @@
+<div class="ml-linear-container">
+  <div class="ml-card">
+    <div class="card-header">
+      <h2>Regresión Lineal Simple</h2>
+      <a routerLink="/ml" class="btn-back-link">Volver a ML</a>
+    </div>
+
+    <p class="subtitle">Ingresa pares de coordenadas (X, Y) para ajustar una recta y predecir el valor de Y para una nueva X.</p>
+
+    <app-loading-spinner [isLoading]="isLoading"></app-loading-spinner>
+    
+    @if (errorMessage) {
+      <app-error-message [message]="errorMessage" (retry)="onSubmit()"></app-error-message>
+    }
+
+    @if (!isLoading) {
+      <form (ngSubmit)="onSubmit()" #linearForm="ngForm">
+        <div class="form-group">
+          <label for="xValues">Valores Independientes (X, separados por comas)</label>
+          <input 
+            type="text" 
+            id="xValues" 
+            name="xValues" 
+            [(ngModel)]="xValues" 
+            required 
+            placeholder="Ej. 1, 2, 3, 4, 5"
+            class="form-control"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="yValues">Valores Dependientes (Y, separados por comas)</label>
+          <input 
+            type="text" 
+            id="yValues" 
+            name="yValues" 
+            [(ngModel)]="yValues" 
+            required 
+            placeholder="Ej. 2, 4, 5, 4, 5"
+            class="form-control"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="predictValue">Valor a Predecir (X_nuevo)</label>
+          <input 
+            type="text" 
+            id="predictValue" 
+            name="predictValue" 
+            [(ngModel)]="predictValue" 
+            required 
+            placeholder="Ej. 6"
+            class="form-control"
+          />
+        </div>
+
+        <button type="submit" [disabled]="!linearForm.form.valid" class="btn-submit">
+          Calcular Regresión
+        </button>
+      </form>
+    }
+
+    @if (result && !isLoading) {
+      <div class="result-section">
+        <h3>Resultados del Análisis</h3>
+        
+        <div class="predictions-box">
+          <p><strong>Predicción para X_nuevo = {{ predictValue }}:</strong></p>
+          <p class="pred-val">{{ result.predictions[0] }}</p>
+        </div>
+
+        <div class="metrics-summary">
+          <h4>Métricas de Ajuste</h4>
+          <ul>
+            @for (metric of getMetricsList(); track metric.name) {
+              <li><strong>{{ metric.name }}:</strong> {{ metric.value }}</li>
+            }
+          </ul>
+        </div>
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,83 @@
+<div class="ml-logistic-container">
+  <div class="ml-card">
+    <div class="card-header">
+      <h2>Regresión Logística</h2>
+      <a routerLink="/ml" class="btn-back-link">Volver a ML</a>
+    </div>
+
+    <p class="subtitle">Clasificador binario. Introduce una matriz de atributos X (bidimensional) y un vector de etiquetas binarias Y (0 o 1) para ajustar el modelo.</p>
+
+    <app-loading-spinner [isLoading]="isLoading"></app-loading-spinner>
+    
+    @if (errorMessage) {
+      <app-error-message [message]="errorMessage" (retry)="onSubmit()"></app-error-message>
+    }
+
+    @if (!isLoading) {
+      <form (ngSubmit)="onSubmit()" #logisticForm="ngForm">
+        <div class="form-group">
+          <label for="xValues">Matriz de Atributos X (JSON bidimensional)</label>
+          <textarea 
+            id="xValues" 
+            name="xValues" 
+            [(ngModel)]="xValues" 
+            required 
+            placeholder="Ej. [[1, 2], [2, 3], [3, 1], [4, 3]]"
+            class="form-control code-textarea"
+            rows="4"
+          ></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="yValues">Vector de Etiquetas Y (separados por comas: 0 o 1)</label>
+          <input 
+            type="text" 
+            id="yValues" 
+            name="yValues" 
+            [(ngModel)]="yValues" 
+            required 
+            placeholder="Ej. 0, 0, 1, 1"
+            class="form-control"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="predictValue">Vector de Predicción (X_nuevo en JSON)</label>
+          <input 
+            type="text" 
+            id="predictValue" 
+            name="predictValue" 
+            [(ngModel)]="predictValue" 
+            required 
+            placeholder="Ej. [2, 2]"
+            class="form-control"
+          />
+        </div>
+
+        <button type="submit" [disabled]="!logisticForm.form.valid" class="btn-submit">
+          Calcular Clasificación
+        </button>
+      </form>
+    }
+
+    @if (result && !isLoading) {
+      <div class="result-section">
+        <h3>Resultados de la Clasificación</h3>
+        
+        <div class="predictions-box">
+          <p><strong>Predicción para X_nuevo:</strong></p>
+          <p class="pred-val">{{ result.predictions[0] }}</p>
+        </div>
+
+        <div class="metrics-summary">
+          <h4>Métricas de Evaluación</h4>
+          <ul>
+            @for (metric of getMetricsList(); track metric.name) {
+              <li><strong>{{ metric.name }}:</strong> {{ metric.value }}</li>
+            }
+          </ul>
+        </div>
+      </div>
+    }
+  </div>
+</div>

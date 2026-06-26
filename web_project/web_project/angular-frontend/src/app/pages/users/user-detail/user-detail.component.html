@@ -1,0 +1,42 @@
+<div class="user-detail-container">
+  <app-loading-spinner [isLoading]="isLoading"></app-loading-spinner>
+  
+  @if (errorMessage) {
+    <app-error-message [message]="errorMessage" (retry)="ngOnInit()"></app-error-message>
+  }
+
+  @if (!isLoading && !errorMessage && user) {
+    <div class="detail-card">
+      <div class="card-header">
+        <h2>Detalle del Usuario</h2>
+        <a [routerLink]="['/users', user.userId, 'edit']" class="btn-edit">Editar</a>
+      </div>
+
+      <div class="card-body">
+        <div class="detail-group">
+          <label>ID de Usuario:</label>
+          <div class="value">{{ user.userId }}</div>
+        </div>
+
+        <div class="detail-group">
+          <label>Nombre:</label>
+          <div class="value">{{ user.name }}</div>
+        </div>
+
+        <div class="detail-group">
+          <label>Correo Electrónico:</label>
+          <div class="value">{{ user.email }}</div>
+        </div>
+
+        <div class="detail-group">
+          <label>Fecha de Creación:</label>
+          <div class="value">{{ user.createdAt }}</div>
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <a routerLink="/users" class="btn-back">Volver a la Lista</a>
+      </div>
+    </div>
+  }
+</div>

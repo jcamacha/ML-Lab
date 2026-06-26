@@ -1,0 +1,296 @@
+# ROL: Subagente Frontend (B) — Software Factory Multi-Agente v2.0
+
+Eres el Subagente B (Ingeniero Frontend and UI). Sigues las reglas en .agents/agents.md.
+
+## PROYECTO: ML Lab — Laboratorio Interactivo de Machine Learning
+**Ruta base:** /mnt/c/Users/juanp/Documents/Proyectos/proyecto-final-web/web_project/web_project/
+
+## OBJETIVO: Crear el proyecto Angular 18+ completo
+
+### PASO 1: Crear proyecto Angular
+```bash
+cd /mnt/c/Users/juanp/Documents/Proyectos/proyecto-final-web/web_project/web_project/
+ng new angular-frontend --routing=true --style=css --ssr=false
+```
+Si ng no esta disponible, instala Angular CLI primero.
+
+### PASO 2: Crear modelos TypeScript en src/app/models/
+
+Crea estos archivos de interfaces:
+
+**user.model.ts:**
+```typescript
+export interface User {
+  userId: number;
+  name: string;
+  email: string;
+  passwordHash?: string;
+  createdAt: string;
+}
+```
+
+**dataset.model.ts:**
+```typescript
+export interface Dataset {
+  datasetId: number;
+  name: string;
+  description: string;
+  datasetType: string;
+  numSamples: number;
+  numFeatures: number;
+  targetVariable: string;
+  createdAt: string;
+}
+```
+
+**ml-model.model.ts:**
+```typescript
+export interface MlModel {
+  modelId: number;
+  name: string;
+  category: string;
+  description: string;
+}
+```
+
+**uploaded-file.model.ts:**
+```typescript
+export interface UploadedFile {
+  fileId: number;
+  fileName: string;
+  storagePath: string;
+  fileSize: number;
+  uploadedAt: string;
+  userId: number;
+}
+```
+
+**experiment.model.ts:**
+```typescript
+export interface Experiment {
+  experimentId: number;
+  userId: number;
+  modelId: number;
+  datasetId: number;
+  parameters: string;
+  accuracy: number;
+  mse: number;
+  r2Score: number;
+  status: string;
+  createdAt: string;
+}
+```
+
+**ml-result.model.ts:**
+```typescript
+export interface MlResult {
+  predictions: number[];
+  metrics: { [key: string]: number };
+  chartData: any;
+}
+```
+
+**email.model.ts:**
+```typescript
+export interface Email {
+  to: string;
+  subject: string;
+  body: string;
+}
+```
+
+### PASO 3: Configurar environment
+
+Edita src/environments/environment.ts y environment.development.ts:
+```typescript
+export const environment = {
+  production: false,
+  apiUrl: 'http://localhost:8080/api'
+};
+```
+
+### PASO 4: Crear servicios HTTP en src/app/services/
+
+Cada servicio usa HttpClient. Ejemplo de api.service.ts:
+```typescript
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
+
+@Injectable({ providedIn: 'root' })
+export class ApiService {
+  protected apiUrl = environment.apiUrl;
+  
+  constructor(protected http: HttpClient) {}
+
+  protected handleError(error: HttpErrorResponse) {
+    console.error('API Error:', error);
+    return throwError(() => new Error(error.message || 'Error del servidor'));
+  }
+}
+```
+
+Luego extiende ApiService para crear:
+- **user.service.ts**: getAll(), getById(id), create(user), update(id, user), delete(id), login(email, password)
+- **dataset.service.ts**: getAll(), getById(id), create(dataset), update(id, dataset), delete(id), getByType(type)
+- **model.service.ts**: getAll(), getById(id), create(model), update(id, model), delete(id)
+- **file.service.ts**: upload(formData: FormData), getAll(), getById(id), delete(id)
+- **experiment.service.ts**: getAll(), getById(id), create(exp), getByUserId(uid), getByModelId(mid), run(expId)
+- **ml.service.ts**: runLinear(data), runLogistic(data), runKnn(data) — POST al backend
+- **email.service.ts**: sendEmail(email) — POST con Email
+- **pdf.service.ts**: getExperimentPdf(id), getDatasetPdf(id) — responseType: 'blob'
+
+### PASO 5: Crear componentes compartidos en src/app/shared/
+
+Cada componente standalone. Usa el nuevo control flow (@if, @for).
+
+**navbar.component.ts** - Barra de navegacion superior con links:
+```typescript
+@Component({
+  selector: 'app-navbar',
+  standalone: true,
+  imports: [RouterLink, RouterLinkActive],
+  template: `
+    <nav style="background:#1a237e;color:white;padding:1rem;">
+      <a routerLink="/" style="color:white;margin-right:1rem;">Inicio</a>
+      <a routerLink="/datasets" style="color:white;margin-right:1rem;">Datasets</a>
+      <a routerLink="/modelos" style="color:white;margin-right:1rem;">Modelos</a>
+      <a routerLink="/experimentos" style="color:white;margin-right:1rem;">Experimentos</a>
+      <a routerLink="/archivos" style="color:white;margin-right:1rem;">Archivos</a>
+      <a routerLink="/ml" style="color:white;">ML Directo</a>
+    </nav>
+  `
+})
+export class NavbarComponent {}
+```
+
+**footer.component.ts** - Pie de pagina simple:
+```
+IPN - ESCOM | ML Lab | 2026
+```
+
+**loading-spinner.component.ts** - Spinner CSS simple con @Input() isLoading.
+
+**confirm-dialog.component.ts** - Dialogo de confirmacion: @Input() message, @Output() confirm, @Output() cancel.
+
+**data-table.component.ts** - Tabla reutilizable: @Input() columns: string[], @Input() data: any[].
+
+**empty-state.component.ts** - Mensaje "No hay datos disponibles".
+
+**error-message.component.ts** - Mensaje de error con boton Reintentar: @Input() message, @Output() retry.
+
+### PASO 6: Crear paginas en src/app/pages/
+
+Cada pagina es un componente standalone con su template y estilos.
+
+**home.component.ts** - Landing page:
+- Titulo: "ML Lab - Laboratorio Interactivo de Machine Learning"
+- Descripcion del proyecto
+- Tarjetas de acceso rapido a Datasets, Modelos, Experimentos
+
+**login.component.ts** - Formulario de login:
+- Campos: email, password
+- Boton "Iniciar Sesion"
+- Llama a userService.login()
+
+**dashboard.component.ts** - Estadisticas basicas.
+
+**users/user-list.component.ts** - Tabla de usuarios con botones Editar/Eliminar.
+
+**users/user-form.component.ts** - Formulario crear/editar usuario.
+- Campos: name, email, password
+- Si es edicion, no mostrar password
+
+**users/user-detail.component.ts** - Vista detalle de un usuario.
+
+**datasets/dataset-list.component.ts** - Tabla de datasets con filtro por tipo.
+
+**datasets/dataset-form.component.ts** - Formulario crear/editar dataset.
+
+**datasets/dataset-detail.component.ts** - Vista detalle con boton "Descargar PDF".
+
+**models-ml/model-list.component.ts** - Catalogo de modelos.
+
+**models-ml/model-form.component.ts** - Formulario registrar modelo.
+
+**models-ml/model-detail.component.ts** - Vista detalle.
+
+**experiments/experiment-list.component.ts** - Tabla de experimentos con filtros.
+
+**experiments/experiment-form.component.ts** - Formulario nuevo experimento:
+- Seleccionar dataset (dropdown)
+- Seleccionar modelo (dropdown)
+- Parametros (textarea)
+- Boton "Ejecutar"
+
+**experiments/experiment-detail.component.ts** - Resultados del experimento:
+- Mostrar metricas (Accuracy, MSE, R2)
+- Boton "Descargar PDF"
+- Boton "Enviar por correo"
+
+**experiments/experiment-run.component.ts** - Pantalla de ejecucion en progreso.
+
+**files/file-upload.component.ts** - Subida de archivos con input type=file.
+
+**files/file-list.component.ts** - Tabla de archivos subidos.
+
+**ml/ml-linear.component.ts** - Formulario para regresion lineal + resultados.
+
+**ml/ml-logistic.component.ts** - Formulario para regresion logistica + resultados.
+
+**ml/ml-knn.component.ts** - Formulario para KNN + resultados.
+
+### PASO 7: Configurar rutas en app.routes.ts
+
+```typescript
+import { Routes } from '@angular/router';
+import { HomeComponent } from './pages/home/home.component';
+import { LoginComponent } from './pages/login/login.component';
+import { UserListComponent } from './pages/users/user-list/user-list.component';
+import { UserFormComponent } from './pages/users/user-form/user-form.component';
+// ... importar todos los componentes
+
+export const routes: Routes = [
+  { path: '', component: HomeComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'usuarios', component: UserListComponent },
+  { path: 'usuarios/nuevo', component: UserFormComponent },
+  { path: 'usuarios/:id', component: UserDetailComponent },
+  // ... todas las rutas
+];
+```
+
+### PASO 8: app.component.ts y app.component.html
+
+app.component.ts standalone, imports: [RouterOutlet, NavbarComponent, FooterComponent].
+app.component.html:
+```html
+<app-navbar></app-navbar>
+<main style="padding:2rem;max-width:1200px;margin:0 auto;">
+  <router-outlet></router-outlet>
+</main>
+<app-footer></app-footer>
+```
+
+### REGLAS CRITICAS:
+- SIN Angular Material — solo CSS plano
+- SIN emojis en la UI
+- SIN dark themes
+- Diseño simple, funcional, profesional
+- Fondo blanco, texto negro, navbar azul oscuro (#1a237e)
+- Todos los componentes standalone (imports en el decorador)
+- Usa @if y @for (nuevo control flow de Angular 18+)
+- Formularios template-driven (FormsModule)
+- Comentarios en español
+- NO hardcodees URLs — usa environment.apiUrl
+- Cada servicio maneja loading, success, error
+
+### DEFINICION DE DONE:
+- ng build sin errores
+- Todas las rutas funcionan
+- Todos los servicios con metodos CRUD
+- Navbar con navegacion completa
+
+Comienza creando el proyecto Angular. Luego crea cada archivo con su codigo completo. NO hagas resumenes — escribe el codigo real.

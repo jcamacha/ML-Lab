@@ -1,0 +1,13 @@
+% secciones/01_objetivo.tex
+\section{Objetivos del Proyecto}\label{sec:objetivo}
+
+El desarrollo de este tercer avance tiene como finalidad consolidar e integrar la arquitectura del sistema \textit{ML Lab} de forma vertical (Full-Stack), comunicando de manera fluida y desacoplada la interfaz de usuario en Angular 18+, la pasarela del Gateway en Java Spring Boot, y el microservicio analítico de Machine Learning en Python FastAPI.
+
+Los objetivos específicos planteados son:
+
+\begin{enumerate}
+    \item \textbf{Integración Completa del Sistema}: Consolidar el flujo de datos interactivo desde la captura de matrices y parámetros de entrada en el cliente Angular, su procesamiento en el Gateway de Spring Boot, la delegación del cómputo científico al microservicio de Python, y la persistencia de las métricas en la base de datos Supabase.
+    \item \textbf{Generación Automatizada de Reportes}: Implementar la funcionalidad de exportación en formato PDF utilizando Apache PDFBox de manera que los usuarios puedan descargar fichas técnicas del conjunto de datos y reportes ejecutivos del entrenamiento.
+    \item \textbf{Comunicación y Notificaciones}: Configurar y activar el protocolo SMTP en el backend de Spring Boot para enviar correos electrónicos automatizados confirmando la ejecución de los experimentos y sus respectivos resultados.
+    \item \textbf{Despliegue Cloud-Native}: Realizar el despliegue del microservicio analítico en Render y la base de datos relacional en la nube (Supabase), permitiendo evaluar la funcionalidad del sistema bajo condiciones de producción reales.
+\end{enumerate}

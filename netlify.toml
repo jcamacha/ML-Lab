@@ -1,0 +1,11 @@
+# ML Lab - Netlify config
+# Despliegue del frontend Angular en Netlify
+
+[build]
+  command = "cd web_project/web_project/angular-frontend && npm ci && npm run build"
+  publish = "web_project/web_project/angular-frontend/dist/angular-frontend/browser"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

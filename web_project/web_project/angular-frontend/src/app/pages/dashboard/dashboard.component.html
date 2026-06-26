@@ -1,0 +1,52 @@
+<div class="dashboard-container">
+  <header class="dashboard-header">
+    <h1>Panel de Control</h1>
+    <p>Visualiza el estado actual de tus recursos de Machine Learning</p>
+  </header>
+
+  <app-loading-spinner [isLoading]="isLoading"></app-loading-spinner>
+
+  @if (errorMessage) {
+    <app-error-message [message]="errorMessage" (retry)="loadStats()"></app-error-message>
+  }
+
+  @if (!isLoading && !errorMessage) {
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon-placeholder datasets-color"></div>
+        <div class="stat-info">
+          <h3>Datasets</h3>
+          <p class="stat-number">{{ totalDatasets }}</p>
+          <a routerLink="/datasets" class="stat-link">Administrar Datasets</a>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon-placeholder models-color"></div>
+        <div class="stat-info">
+          <h3>Modelos</h3>
+          <p class="stat-number">{{ totalModels }}</p>
+          <a routerLink="/models" class="stat-link">Ver Modelos</a>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon-placeholder experiments-color"></div>
+        <div class="stat-info">
+          <h3>Experimentos</h3>
+          <p class="stat-number">{{ totalExperiments }}</p>
+          <a routerLink="/experiments" class="stat-link">Ver Experimentos</a>
+        </div>
+      </div>
+    </div>
+
+    <section class="quick-actions">
+      <h2>Acciones Disponibles</h2>
+      <div class="actions-container">
+        <a routerLink="/experiments" class="action-btn">Nuevo Experimento</a>
+        <a routerLink="/files" class="action-btn">Subir Archivo</a>
+        <a routerLink="/ml" class="action-btn">Probar Algoritmo</a>
+      </div>
+    </section>
+  }
+</div>

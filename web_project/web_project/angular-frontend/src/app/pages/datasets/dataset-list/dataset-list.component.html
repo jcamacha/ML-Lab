@@ -1,0 +1,62 @@
+<div class="dataset-list-container">
+  <div class="header-actions">
+    <h2>Conjuntos de Datos (Datasets)</h2>
+    <a routerLink="/datasets/new" class="btn-create">Nuevo Dataset</a>
+  </div>
+
+  <div class="filter-bar">
+    <label for="filterType">Filtrar por Tipo:</label>
+    <select id="filterType" [(ngModel)]="selectedType" (change)="onFilterChange()" class="filter-select">
+      <option value="">Todos los tipos</option>
+      <option value="Clasificación">Clasificación</option>
+      <option value="Regresión">Regresión</option>
+    </select>
+  </div>
+
+  <app-loading-spinner [isLoading]="isLoading"></app-loading-spinner>
+  
+  @if (errorMessage) {
+    <app-error-message [message]="errorMessage" (retry)="loadDatasets()"></app-error-message>
+  }
+
+  @if (!isLoading && !errorMessage) {
+    <app-data-table 
+      [columns]="columns" 
+      [headers]="headers" 
+      [data]="datasets" 
+      title="Datasets Disponibles"
+    ></app-data-table>
+
+    <div class="actions-table-container">
+      <h3>Operaciones de Dataset</h3>
+      <table class="actions-table">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (dataset of datasets; track dataset.datasetId) {
+            <tr>
+              <td><strong>{{ dataset.name }}</strong></td>
+              <td>{{ dataset.description }}</td>
+              <td>
+                <div class="btn-group">
+                  <a [routerLink]="['/datasets', dataset.datasetId]" class="btn-action view">Detalle</a>
+                  <a [routerLink]="['/datasets', dataset.datasetId, 'edit']" class="btn-action edit">Editar</a>
+                  <button (click)="deleteDataset(dataset.datasetId)" class="btn-action delete">Eliminar</button>
+                </div>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="3" class="empty-cell">No se encontraron datasets para el criterio seleccionado.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

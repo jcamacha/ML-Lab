@@ -1,0 +1,79 @@
+# SUBIR ML Lab a GitHub y preparar despliegue
+
+Eres DevOps. Trabajas en WSL (Linux).
+
+## REPOSITORIO
+URL: https://github.com/jcamacha/ML-Lab.git
+Ruta local: /mnt/c/Users/juanp/Documents/Proyectos/proyecto-final-web/
+
+## TAREA 1: Eliminar .git local si existe y configurar desde cero
+
+```bash
+cd /mnt/c/Users/juanp/Documents/Proyectos/proyecto-final-web/
+# Si hay .git de proyectos anteriores, lo eliminamos
+rm -rf .git 2>/dev/null || true
+rm -rf web_project/web_project/.git 2>/dev/null || true
+```
+
+## TAREA 2: Asegurar .gitignore correcto
+
+El archivo .gitignore ya existe en la raiz. LEElo primero.
+El contenido actual debe ser similar a:
+```
+.agents/
+.env
+.env.local
+node_modules/
+.angular/
+dist/
+target/
+__pycache__/
+*.pyc
+.venv/
+.idea/
+*.iml
+.vscode/
+*.log
+*.aux
+*.out
+*.toc
+```
+
+Si falta algo, agregalo.
+
+## TAREA 3: Copiar Docs_LaTeX_Export si existe
+
+La carpeta Docs_LaTeX_Export puede estar en:
+/mnt/c/Users/juanp/Documents/reportes-con-agy/web/app-web-final/app-web-tecer-avance/Docs_LaTeX_Export/
+
+Si existe, copiala a:
+/mnt/c/Users/juanp/Documents/Proyectos/proyecto-final-web/Docs_LaTeX_Export/
+
+## TAREA 4: Configurar git y pushear
+
+```bash
+cd /mnt/c/Users/juanp/Documents/Proyectos/proyecto-final-web/
+git init
+git config user.email "jcamacha@example.com"
+git config user.name "Juan Pablo Camacho"
+git add .
+git status
+git commit -m "feat: ML Lab full-stack third advance - Angular frontend, Spring Boot backend, LaTeX documentation"
+git remote add origin https://github.com/jcamacha/ML-Lab.git
+git branch -M main
+git push -u origin main
+```
+
+## REGLAS
+- NO ejecutes npm install, npm run build, mvn, ng, java ni nada de compilacion
+- Si git push pide autenticacion, usa el metodo que tengas configurado en WSL
+- Lee los archivos antes de modificarlos
+- Si Docs_LaTeX_Export no existe, solo reportalo y continua
+- Verifica que el push fue exitoso
+
+## REPORTE FINAL
+Cuando termines, reporta:
+1. Que archivos se subieron (cuantos commits, cuantos archivos)
+2. Si Docs_LaTeX_Export se incluyo
+3. URL del repo
+4. Proximos pasos para el usuario

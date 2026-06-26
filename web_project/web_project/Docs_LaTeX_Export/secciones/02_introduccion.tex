@@ -1,0 +1,34 @@
+% secciones/02_introduccion.tex
+\section{Marco Teórico}\label{sec:introduccion}
+
+La realización de una aplicación moderna orientada al cómputo de Machine Learning requiere la integración de metodologías de diseño arquitectónico y de tecnologías que provean alta cohesión y bajo acoplamiento. A continuación, se detallan los pilares conceptuales del proyecto.
+
+\subsection{Arquitectura de Microservicios}
+El desarrollo bajo la arquitectura de microservicios consiste en subdividir una aplicación grande en un conjunto de servicios autónomos pequeños, donde cada uno ejecuta un proceso de negocio específico y se comunica a través de mecanismos ligeros, comúnmente APIs HTTP [1]. Esta arquitectura permite que cada componente sea escalado, modificado y desplegado de manera independiente, lo cual resulta idóneo al separar tareas administrativas (Backend general) del procesamiento de alto coste computacional (Microservicio ML) [2].
+
+\subsection{Spring Boot y el Patrón Controller-Service-Repository}
+En el ámbito empresarial, Spring Boot simplifica el desarrollo de aplicaciones basadas en el ecosistema Spring al proporcionar configuraciones predefinidas [4]. La lógica de backend se estructura siguiendo el patrón Controller-Service-Repository, el cual promueve la separación de responsabilidades:
+\begin{itemize}
+    \item \textbf{Controller (Controlador)}: Actúa como la capa expuesta que intercepta las peticiones HTTP externas, valida la entrada y despacha las respuestas en formatos normalizados (JSON, archivos binarios).
+    \item \textbf{Service (Servicio)}: Contiene la lógica del negocio del dominio, orquestando las interacciones entre los repositorios de persistencia y las llamadas remotas a otros componentes de software.
+    \item \textbf{Repository (Repositorio)}: Modela la capa de acceso a datos utilizando mapeo objeto-relacional (ORM), abstrayendo las sentencias SQL mediante la interfaz de Spring Data JPA.
+\end{itemize}
+
+\subsection{Angular 18+ y las Single Page Applications (SPA)}
+Las aplicaciones de una sola página (SPA) cargan una única página HTML y actualizan dinámicamente el contenido del árbol DOM conforme el usuario interactúa con la interfaz [5]. Angular 18+ introduce mejoras en el rendimiento, simplificando la gestión de reactividad con el uso de componentes independientes (\textit{standalone components}). La inyección de dependencias modular y la gestión integrada de peticiones HTTP observables a través de la biblioteca \textit{RxJS} facilitan el desarrollo estructurado de interfaces reactivas de grado de producción.
+
+\subsection{Especificación OpenAPI y Swagger}
+La especificación OpenAPI proporciona un estándar de descripción de API REST independiente del lenguaje [3]. Facilita que tanto computadoras como seres humanos comprendan las capacidades del servicio web sin necesidad de acceder al código fuente. Herramientas como Swagger UI consumen este esquema para renderizar una interfaz interactiva interactuable en tiempo real, agilizando las fases de prueba e integración.
+
+\subsection{Protocolo SMTP para Notificaciones}
+El protocolo simple de transferencia de correo (SMTP) es el estándar de internet para la transmisión de mensajes de correo electrónico [4]. En aplicaciones empresariales, se utiliza para automatizar notificaciones instantáneas de eventos del sistema (ej. finalización de entrenamientos de modelos), integrando librerías especializadas dentro del framework Spring.
+
+\subsection{Generación de PDFs con Apache PDFBox}
+La distribución de reportes estandarizados y portables se resuelve mediante la renderización dinámica de documentos PDF. La librería Apache PDFBox de código abierto escrita en Java provee herramientas para la creación y manipulación de archivos PDF [7]. Permite dibujar texto y figuras geométricas sobre las páginas mediante un flujo de bajo nivel (\textit{PDPageContentStream}), requiriendo un control meticuloso del posicionamiento absoluto en un canvas bidimensional.
+
+\subsection{Despliegue Cloud-Native en Render y Supabase}
+El despliegue en entornos modernos se beneficia de la computación en la nube para automatizar la integración y entrega continua (CI/CD).
+\begin{itemize}
+    \item \textbf{Render}: Plataforma unificada de nube que permite hospedar servicios web en Python de forma automatizada a partir de un repositorio de control de versiones.
+    \item \textbf{Supabase}: Plataforma en la nube de código abierto (BaaS) que provee una base de datos PostgreSQL dedicada, simplificando la conectividad y persistencia relacional con el framework Spring Boot [6].
+\end{itemize}

@@ -1,0 +1,120 @@
+# TAREA: Arreglar config y preparar despliegue de ML Lab
+
+Usa modelo gemini-2.5-pro (el mas potente disponible).
+
+## PROYECTO
+Ruta: /mnt/c/Users/juanp/Documents/Proyectos/proyecto-final-web/
+
+Modulos en web_project/web_project/:
+- java-backend/ — Spring Boot 3.3.2 + PostgreSQL Supabase
+- angular-frontend/ — Angular 18
+- python-api/ — Microservicio ML
+
+## TAREA 1: Diagnosticar y arreglar application.properties
+
+1. LEE el archivo actual:
+   /mnt/c/Users/juanp/Documents/Proyectos/proyecto-final-web/web_project/web_project/java-backend/src/main/resources/application.properties
+
+2. Revisa que tenga estas 3 variables separadas para la DB:
+   - spring.datasource.url=${SPRING_DATASOURCE_URL}
+   - spring.datasource.username=${SPRING_DATASOURCE_USERNAME}
+   - spring.datasource.password=${SPRING_DATASOURCE_PASSWORD}
+   
+   Si la URL contiene credenciales incrustadas (user:pass@host), CORRIGELO para que solo sea la URL base.
+   La URL correcta para Supabase es: jdbc:postgresql://HOST:PORT/DATABASE sin usuario ni password en la URL.
+
+3. Verifica que todas las variables de entorno USADAS esten listadas en el archivo.
+   Debe incluir:
+   - SPRING_DATASOURCE_URL
+   - SPRING_DATASOURCE_USERNAME
+   - SPRING_DATASOURCE_PASSWORD
+   - SPRING_MAIL_USERNAME
+   - SPRING_MAIL_PASSWORD
+   - PORT (default 8080)
+
+4. Despues de modificar, ejecuta:
+   cd /mnt/c/Users/juanp/Documents/Proyectos/proyecto-final-web/web_project/web_project/java-backend
+   mvn compile -q
+   Si falla, corrige y repite hasta que compile.
+
+## TAREA 2: Crear .env.example
+
+Crea .env.example en la raiz del proyecto con TODAS las variables requeridas:
+```bash
+# Database (Supabase PostgreSQL)
+SPRING_DATASOURCE_URL=jdbc:postgresql://aws-1-us-east-2.pooler.supabase.com:***@gmail.com
+SPRING_MAIL_PASSWORD=tu_password_de_aplicacion_gmail
+PORT=8080
+```
+
+## TAREA 3: Configurar Git
+
+1. LEE el .gitignore actual en web_project/web_project/.gitignore
+2. Crea/reemplaza .gitignore en la RAIZ del proyecto (/mnt/c/Users/juanp/Documents/Proyectos/proyecto-final-web/.gitignore):
+   - node_modules/
+   - .angular/
+   - dist/
+   - target/
+   - __pycache__/
+   - .env
+   - .agents/
+   - .idea/
+   - *.iml
+   - .vscode/
+   - *.log
+   - *.aux
+3. Inicializa git: cd /mnt/c/Users/juanp/Documents/Proyectos/proyecto-final-web/ && git init && git add . && git status
+
+## TAREA 4: Configurar Render
+
+Crea render.yaml en la raiz:
+```yaml
+services:
+  - type: web
+    name: ml-lab-backend
+    env: java
+    plan: free
+    buildCommand: cd web_project/web_project/java-backend && mvn clean package -DskipTests
+    startCommand: java -jar web_project/web_project/java-backend/target/ml-lab-backend-1.0-SNAPSHOT.jar
+    envVars:
+      - key: SPRING_DATASOURCE_URL
+        value: jdbc:postgresql://aws-1-us-east-2.pooler.supabase.com:***@gmail.com
+      - key: SPRING_MAIL_PASSWORD
+        value: leoo...ug
+      - key: PORT
+        value: 8080
+```
+
+## TAREA 5: Configurar Netlify
+
+Crea netlify.toml en la raiz:
+```toml
+[build]
+  command = "cd web_project/web_project/angular-frontend && npm install && npm run build"
+  publish = "web_project/web_project/angular-frontend/dist/angular-frontend/browser"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+```
+
+## TAREA 6: Compilar todo
+
+1. Backend: cd web_project/web_project/java-backend && mvn clean package -DskipTests -q
+2. Frontend: cd web_project/web_project/angular-frontend && npm install && npm run build
+3. Verifica que ambos generen sin errores
+
+## TAREA 7: Verificar estructura final
+
+Reporta:
+- Que archivos se crearon/modificaron
+- Si mvn compile y npm run build pasaron
+- Cual es el arbol de archivos principales
+- Que necesita el usuario para completar el despliegue (Render, Netlify, GitHub)
+
+## REGLAS
+- Lee los archivos existentes antes de modificarlos
+- Verifica compilacion despues de cada cambio
+- No toques el codigo fuente (.java, .ts) — solo configuracion
+- Si algo falla, diagnostica el error exacto y corrigelo

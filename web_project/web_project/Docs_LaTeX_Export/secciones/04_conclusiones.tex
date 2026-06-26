@@ -1,0 +1,12 @@
+% secciones/04_conclusiones.tex
+\section{Conclusiones y Trabajo a Futuro}\label{sec:conclusiones}
+
+La integración de una arquitectura heterogénea conformada por componentes en Java Spring Boot, Python FastAPI y Angular 18+ permitió construir un ecosistema acoplado de forma débil y escalable. A través de este tercer avance, se validaron los siguientes aspectos técnicos:
+
+\begin{itemize}
+    \item La separación de la interfaz reactiva del procesamiento de Machine Learning mediante una pasarela Gateway implementada en Spring Boot disminuyó la latencia observada en el cliente final, mejorando la respuesta asíncrona.
+    \item La persistencia descentralizada de metadatos en Supabase facilitó la trazabilidad de ejecuciones previas, permitiendo realizar comparaciones de exactitud entre entrenamientos de modelos y facilitando su consumo en la interfaz web de Angular.
+    \item El uso de Apache PDFBox y de la automatización por correo mediante SMTP habilitó un canal formal para la distribución del conocimiento de forma automatizada, permitiendo descargar los resultados del experimento en tiempo real y enviando notificaciones confirmatorias.
+\end{itemize}
+
+Como trabajo futuro se contempla la incorporación de mecanismos de balanceo de carga para el microservicio analítico de Python, así como la optimización de los gráficos de Matplotlib para su incrustación dinámica directa dentro del reporte PDF.

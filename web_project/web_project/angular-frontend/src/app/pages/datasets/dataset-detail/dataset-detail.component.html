@@ -1,0 +1,67 @@
+<div class="dataset-detail-container">
+  <app-loading-spinner [isLoading]="isLoading"></app-loading-spinner>
+  
+  @if (errorMessage) {
+    <app-error-message [message]="errorMessage" (retry)="ngOnInit()"></app-error-message>
+  }
+
+  @if (!isLoading && !errorMessage && dataset) {
+    <div class="detail-card">
+      <div class="card-header">
+        <h2>Detalle de Dataset</h2>
+        <div class="header-actions">
+          <a [routerLink]="['/datasets', dataset.datasetId, 'edit']" class="btn-edit">Editar</a>
+          <button (click)="downloadPdf()" [disabled]="isPdfLoading" class="btn-pdf">
+            {{ isPdfLoading ? 'Generando PDF...' : 'Descargar PDF' }}
+          </button>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <div class="detail-group">
+          <label>ID de Dataset:</label>
+          <div class="value">{{ dataset.datasetId }}</div>
+        </div>
+
+        <div class="detail-group">
+          <label>Nombre:</label>
+          <div class="value">{{ dataset.name }}</div>
+        </div>
+
+        <div class="detail-group">
+          <label>Descripción:</label>
+          <div class="value">{{ dataset.description }}</div>
+        </div>
+
+        <div class="detail-group">
+          <label>Tipo de Problema:</label>
+          <div class="value">{{ dataset.datasetType }}</div>
+        </div>
+
+        <div class="detail-group">
+          <label>Número de Muestras (Filas):</label>
+          <div class="value">{{ dataset.numSamples }}</div>
+        </div>
+
+        <div class="detail-group">
+          <label>Número de Atributos (Columnas):</label>
+          <div class="value">{{ dataset.numFeatures }}</div>
+        </div>
+
+        <div class="detail-group">
+          <label>Variable Objetivo (Target):</label>
+          <div class="value">{{ dataset.targetVariable }}</div>
+        </div>
+
+        <div class="detail-group">
+          <label>Fecha de Creación:</label>
+          <div class="value">{{ dataset.createdAt }}</div>
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <a routerLink="/datasets" class="btn-back">Volver a la Lista</a>
+      </div>
+    </div>
+  }
+</div>

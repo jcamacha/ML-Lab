@@ -1,0 +1,30 @@
+<div class="experiment-run-container">
+  <div class="run-card">
+    <h2>Ejecución de Experimento</h2>
+    
+    <app-loading-spinner [isLoading]="isLoading"></app-loading-spinner>
+    
+    @if (errorMessage) {
+      <app-error-message [message]="errorMessage" (retry)="loadData()"></app-error-message>
+    }
+
+    @if (!isLoading && !errorMessage) {
+      <div class="run-content">
+        <div class="loader-ring"></div>
+        <p class="status-title">Ejecutando...</p>
+        <p class="status-description">{{ progressMessage }}</p>
+
+        <div class="progress-bar-container">
+          <div class="progress-bar-fill" [style.width.%]="progressPercentage"></div>
+        </div>
+        <span class="progress-text">{{ progressPercentage }}% completado</span>
+
+        <div class="details-summary">
+          <p><strong>Experimento ID:</strong> {{ experimentId }}</p>
+          <p><strong>Modelo:</strong> {{ model?.name }}</p>
+          <p><strong>Dataset:</strong> {{ dataset?.name }}</p>
+        </div>
+      </div>
+    }
+  </div>
+</div>
