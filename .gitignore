@@ -42,12 +42,23 @@ Thumbs.db
 *.fdb_latexmk
 *.bbl
 *.blg
+# Archivos de planeacion y prompts
+Plan_Desarrollo*.md
 agy_prompt_*.txt
+DEV_JOURNAL_ADR_template.md
 run_backend.sh
 start_backend.bat
 
-# Temp files
+# Docs y agentes (nunca se suben)
+Docs_LaTeX_Export/
+.agents/
+# Archivos de planeacion y prompts
+Plan_Desarrollo*.md
 agy_prompt_*.txt
+DEV_JOURNAL_ADR_template.md
 run_backend.sh
 start_backend.bat
-DEV_JOURNAL_ADR_template.md
+
+# Docs y agentes (nunca se suben)
+Docs_LaTeX_Export/
+.agents/
