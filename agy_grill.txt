@@ -1,0 +1,12 @@
+/grill-me
+
+Antes de responder, hazme preguntas rigurosas sobre los requisitos, trade-offs, y edge cases del sistema.
+
+Contexto: Tengo una aplicacion Spring Boot 3.3.2 que se conecta a Supabase PostgreSQL, desplegada en Railway via Docker. El backend falla al conectar a la base de datos con error:
+
+SQLState: 08001 - "The connection attempt failed"
+
+Hibernate no puede abrir conexion JDBC. El JDBC URL actual es:
+jdbc:postgresql://postgres.jcfbtafdpyeptviorddm:***@aws-1-us-east-2.pooler.supabase.com:6543/postgres?sslmode=require
+
+Quiero que planifiques una solucion. Hazme las preguntas que necesites para diagnosticar.

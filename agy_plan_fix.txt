@@ -1,0 +1,40 @@
+PLANEA una solucion para este error en Spring Boot 3.3.2 desplegado en Railway.
+
+## ERROR
+Unable to determine Dialect without JDBC metadata
+HHH000342: Could not obtain connection to query metadata
+The connection attempt failed. (SQLState: 08001)
+
+El backend Spring Boot no puede conectar a Supabase PostgreSQL.
+
+## CONTEXTO
+- Spring Boot 3.3.2 + Hibernate 6.5.2
+- PostgreSQL en Supabase via pooler (aws-1-us-east-2.pooler.supabase.com:***@gmail.com
+- Dockerfile con eclipse-temurin:21
+- Aplicacion desplegada en Railway
+
+## RUTA DEL PROYECTO
+/mnt/c/Users/juanp/Documents/Proyectos/proyecto-final-web/web_project/web_project/java-backend/
+
+## TAREAS
+
+1. LEE el archivo application.properties actual en:
+/mnt/c/Users/juanp/Documents/Proyectos/proyecto-final-web/web_project/web_project/java-backend/src/main/resources/application.properties
+
+2. LEE el Dockerfile en:
+/mnt/c/Users/juanp/Documents/Proyectos/proyecto-final-web/web_project/web_project/java-backend/Dockerfile
+
+3. DIAGNOSTICA exactamente por que falla la conexion
+
+4. GENERA un plan como artefacto con:
+   - Causa raiz del problema
+   - Pasos exactos para corregirlo
+   - Codigo de configuracion necesario
+   - Verificacion post-fix
+
+5. APLICA el plan:
+   - Modifica los archivos necesarios
+   - SUBE los cambios a git:
+     cd /mnt/c/Users/juanp/Documents/Proyectos/proyecto-final-web/ && git add -A && git commit -m "fix: database connection config" && git push
+
+IMPORTANTE: No uses "/planning" ni comandos de barra. Solo lee, diagnostica, genera plan y ejecuta.
