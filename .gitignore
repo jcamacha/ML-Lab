@@ -42,3 +42,12 @@ Thumbs.db
 *.fdb_latexmk
 *.bbl
 *.blg
+agy_prompt_*.txt
+run_backend.sh
+start_backend.bat
+
+# Temp files
+agy_prompt_*.txt
+run_backend.sh
+start_backend.bat
+DEV_JOURNAL_ADR_template.md
