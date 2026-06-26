@@ -33,8 +33,7 @@ export class FileUploadComponent {
     return (this.selectedFile.size / 1024).toFixed(2);
   }
 
-  onSubmit(event: Event) {
-    event.preventDefault();
+  onSubmit() {
     if (!this.selectedFile) {
       this.errorMessage = 'Por favor selecciona un archivo primero.';
       return;
