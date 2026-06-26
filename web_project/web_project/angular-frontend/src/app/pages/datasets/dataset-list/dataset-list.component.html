@@ -21,42 +21,11 @@
 
   @if (!isLoading && !errorMessage) {
     <app-data-table 
-      [columns]="columns" 
-      [headers]="headers" 
+      [columns]="['datasetId', 'name', 'datasetType', 'numSamples', 'numFeatures', 'targetVariable', 'acciones']" 
+      [headers]="['ID', 'Nombre', 'Tipo', 'Muestras', 'Atributos', 'Variable Objetivo', 'Acciones']" 
       [data]="datasets" 
       title="Datasets Disponibles"
+      (click)="$any($event.target).getAttribute('data-action') === 'delete' && deleteDataset(+$any($event.target).getAttribute('data-id'))"
     ></app-data-table>
-
-    <div class="actions-table-container">
-      <h3>Operaciones de Dataset</h3>
-      <table class="actions-table">
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Descripción</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (dataset of datasets; track dataset.datasetId) {
-            <tr>
-              <td><strong>{{ dataset.name }}</strong></td>
-              <td>{{ dataset.description }}</td>
-              <td>
-                <div class="btn-group">
-                  <a [routerLink]="['/datasets', dataset.datasetId]" class="btn-action view">Detalle</a>
-                  <a [routerLink]="['/datasets', dataset.datasetId, 'edit']" class="btn-action edit">Editar</a>
-                  <button (click)="deleteDataset(dataset.datasetId)" class="btn-action delete">Eliminar</button>
-                </div>
-              </td>
-            </tr>
-          } @empty {
-            <tr>
-              <td colspan="3" class="empty-cell">No se encontraron datasets para el criterio seleccionado.</td>
-            </tr>
-          }
-        </tbody>
-      </table>
-    </div>
   }
 </div>

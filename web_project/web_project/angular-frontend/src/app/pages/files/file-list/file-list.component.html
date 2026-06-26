@@ -12,40 +12,11 @@
 
   @if (!isLoading && !errorMessage) {
     <app-data-table 
-      [columns]="columns" 
-      [headers]="headers" 
+      [columns]="['fileId', 'fileName', 'fileSizeKb', 'uploadedAt', 'acciones']" 
+      [headers]="['ID', 'Nombre de Archivo', 'Tamaño (KB)', 'Fecha de Carga', 'Acciones']" 
       [data]="dataTableData" 
       title="Archivos Subidos"
+      (click)="$any($event.target).getAttribute('data-action') === 'delete' && deleteFile(+$any($event.target).getAttribute('data-id'))"
     ></app-data-table>
-
-    <div class="actions-table-container">
-      <h3>Acciones sobre Archivos</h3>
-      <table class="actions-table">
-        <thead>
-          <tr>
-            <th>Nombre del Archivo</th>
-            <th>Tamaño</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (file of dataTableData; track file.fileId) {
-            <tr>
-              <td><strong>{{ file.fileName }}</strong></td>
-              <td>{{ file.fileSizeKb }} KB</td>
-              <td>
-                <div class="btn-group">
-                  <button (click)="deleteFile(file.fileId)" class="btn-action delete">Eliminar del Servidor</button>
-                </div>
-              </td>
-            </tr>
-          } @empty {
-            <tr>
-              <td colspan="3" class="empty-cell">No hay archivos en el almacén de datos.</td>
-            </tr>
-          }
-        </tbody>
-      </table>
-    </div>
   }
 </div>

@@ -15,7 +15,54 @@
       @for (row of data; track row) {
         <tr>
           @for (col of columns; track col) {
-            <td>{{ row[col] }}</td>
+            <td>
+              @if (col === 'acciones') {
+                <div class="btn-group">
+                  <!-- Experimento Acciones -->
+                  @if (row.experimentId !== undefined) {
+                    <a href="/experiments/{{row.experimentId}}" class="btn-action view">Detalle</a>
+                    @if (row.status === 'PENDING') {
+                      <a href="/experiments/{{row.experimentId}}/run" class="btn-action run">Ejecutar</a>
+                    }
+                    <button class="btn-action delete" [attr.data-id]="row.experimentId" data-action="delete">Eliminar</button>
+                  }
+                  
+                  <!-- Dataset Acciones -->
+                  @if (row.datasetId !== undefined) {
+                    <a href="/datasets/{{row.datasetId}}" class="btn-action view">Detalle</a>
+                    <a href="/datasets/{{row.datasetId}}/edit" class="btn-action edit">Editar</a>
+                    <button class="btn-action delete" [attr.data-id]="row.datasetId" data-action="delete">Eliminar</button>
+                  }
+                  
+                  <!-- Usuario Acciones -->
+                  @if (row.userId !== undefined) {
+                    <a href="/users/{{row.userId}}" class="btn-action view">Detalle</a>
+                    <a href="/users/{{row.userId}}/edit" class="btn-action edit">Editar</a>
+                    <button class="btn-action delete" [attr.data-id]="row.userId" data-action="delete">Eliminar</button>
+                  }
+                  
+                  <!-- Modelo Acciones -->
+                  @if (row.modelId !== undefined) {
+                    <a href="/models/{{row.modelId}}" class="btn-action view">Detalle</a>
+                    <a href="/models/{{row.modelId}}/edit" class="btn-action edit">Editar</a>
+                    <button class="btn-action delete" [attr.data-id]="row.modelId" data-action="delete">Eliminar</button>
+                  }
+                  
+                  <!-- Archivo Acciones -->
+                  @if (row.fileId !== undefined) {
+                    <button class="btn-action delete" [attr.data-id]="row.fileId" data-action="delete">Eliminar</button>
+                  }
+                </div>
+              } @else if (col === 'status' || col === 'estado') {
+                <span class="status-badge" [class]="row[col]?.toLowerCase()">
+                  {{ row[col] === 'PENDING' ? 'Pendiente' : row[col] === 'RUNNING' ? 'Ejecutando' : row[col] === 'COMPLETED' ? 'Completado' : row[col] === 'FAILED' ? 'Fallido' : row[col] }}
+                </span>
+              } @else if (col === 'category' || col === 'categoria') {
+                <span class="category-badge">{{ row[col] }}</span>
+              } @else {
+                {{ row[col] }}
+              }
+            </td>
           }
         </tr>
       } @empty {

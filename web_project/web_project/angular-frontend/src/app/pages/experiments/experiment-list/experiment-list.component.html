@@ -45,52 +45,11 @@
 
   @if (!isLoading && !errorMessage) {
     <app-data-table 
-      [columns]="columns" 
-      [headers]="headers" 
+      [columns]="['experimentId', 'modelName', 'datasetName', 'status', 'createdAt', 'acciones']" 
+      [headers]="['ID', 'Modelo', 'Dataset', 'Estado', 'Fecha de Creación', 'Acciones']" 
       [data]="dataTableData" 
       title="Experimentos Registrados"
+      (click)="$any($event.target).getAttribute('data-action') === 'delete' && deleteExperiment(+$any($event.target).getAttribute('data-id'))"
     ></app-data-table>
-
-    <div class="actions-table-container">
-      <h3>Acciones sobre Experimentos</h3>
-      <table class="actions-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Modelo</th>
-            <th>Dataset</th>
-            <th>Estado</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (exp of dataTableData; track exp.experimentId) {
-            <tr>
-              <td>{{ exp.experimentId }}</td>
-              <td>{{ exp.modelName }}</td>
-              <td>{{ exp.datasetName }}</td>
-              <td>
-                <span class="status-badge" [class]="exp.status.toLowerCase()">
-                  {{ exp.status }}
-                </span>
-              </td>
-              <td>
-                <div class="btn-group">
-                  <a [routerLink]="['/experiments', exp.experimentId]" class="btn-action view">Detalle / Resultados</a>
-                  @if (exp.status === 'PENDING') {
-                    <a [routerLink]="['/experiments', exp.experimentId, 'run']" class="btn-action run">Ejecutar</a>
-                  }
-                  <button (click)="deleteExperiment(exp.experimentId)" class="btn-action delete">Eliminar</button>
-                </div>
-              </td>
-            </tr>
-          } @empty {
-            <tr>
-              <td colspan="5" class="empty-cell">No se encontraron experimentos que coincidan con los filtros.</td>
-            </tr>
-          }
-        </tbody>
-      </table>
-    </div>
   }
 </div>

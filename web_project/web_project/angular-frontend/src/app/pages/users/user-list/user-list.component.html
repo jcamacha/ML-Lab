@@ -12,40 +12,11 @@
 
   @if (!isLoading && !errorMessage) {
     <app-data-table 
-      [columns]="columns" 
-      [headers]="headers" 
+      [columns]="['userId', 'name', 'email', 'createdAt', 'acciones']" 
+      [headers]="['ID', 'Nombre', 'Correo Electrónico', 'Fecha de Registro', 'Acciones']" 
       [data]="users" 
       title="Lista General de Usuarios"
+      (click)="$any($event.target).getAttribute('data-action') === 'delete' && deleteUser(+$any($event.target).getAttribute('data-id'))"
     ></app-data-table>
-
-    <div class="actions-table-container">
-      <h3>Acciones de Administración</h3>
-      <table class="actions-table">
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (user of users; track user.userId) {
-            <tr>
-              <td>{{ user.name }}</td>
-              <td>
-                <div class="btn-group">
-                  <a [routerLink]="['/users', user.userId]" class="btn-action view">Ver Detalle</a>
-                  <a [routerLink]="['/users', user.userId, 'edit']" class="btn-action edit">Editar</a>
-                  <button (click)="deleteUser(user.userId)" class="btn-action delete">Eliminar</button>
-                </div>
-              </td>
-            </tr>
-          } @empty {
-            <tr>
-              <td colspan="2" class="empty-cell">No hay usuarios registrados.</td>
-            </tr>
-          }
-        </tbody>
-      </table>
-    </div>
   }
 </div>
